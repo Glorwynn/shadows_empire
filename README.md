@@ -19,8 +19,6 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Les différents personnages gagnent en expérience et donc en compétences. [Penser à faire un arbre de compétences]
 - Les différents personnages peuvent être de sexe/race différents, avec ses avantages et inconvénients. [Penser à faire une liste des races et un tableau des bonus/malus]
 
-####
-
 #### Caractéristiques d'un personnage
 - Caractéristiques opposées (crainte/sympathie, loyauté/autorité) qui marcheraient sur le principe d'un compteur de -10 à +10 (-7 signifiant 7 en crainte et 7 signifiant 7 en sympathie) ?
 
@@ -50,6 +48,7 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Cambrioleur
 - Câjoleuse / Gigolo
 - Coupe-jarret
+- Producteur de drogue
 
 ### Bâtiments
 - Premier système : liste de bâtiments en dur, et on progresse petit à petit en achetant un nouveau (on peut imaginer débloquer des nouveaux "tiers" avec chaque achat)
@@ -70,6 +69,10 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Sorte de "grades" ou de "succès" qui servent de score/objectif/motivateur pour le joueur (Casanova : avoir 4 prostituées, Triades : atteindre le niveau x dans trois domaines différents, Requiem for a Dwarf : vendre de la cam' à 100 clients nains)
 
 ### Activités
+- Drogue
+- Prostitution
+- Guilde de voleurs
+- Guilde d'assassins∏
 
 ## Mots clés brut
 - Système de corruption
