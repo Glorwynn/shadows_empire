@@ -50,7 +50,6 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Prostitution
 - Guilde de voleurs
 - Guilde d'assassins
-- 
 
 # Mots clés brut #
 - Système de corruption
