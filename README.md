@@ -25,10 +25,11 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Influence
 
 ## Titres du joueur ##
+- mule
+- Petit dealer 
 - Buraliste
 - Tavernier
-- Petit dealer 
-- mule
+- Producteur de drogue
 
 
 ## Bâtiments ##
@@ -46,8 +47,14 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 (Du plus petit au plus grand)
 
 ## Activités ##
+- Drogue
+- Prostitution
+- Guilde de voleurs
+- Guilde d'assassins
+- 
 
 # Mots clés brut #
-- Introduire le système de corruption
+- Système de corruption
 - Notion de distance (Pour aller assassiner un personnage, ça prend plus ou moins de temps en fonction de la distance)
+
 
