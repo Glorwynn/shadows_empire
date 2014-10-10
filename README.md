@@ -23,6 +23,7 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Crainte inspirée
 - Loyauté des serviteurs
 - Influence
+- Roxxattitude
 
 ## Titres du joueur ##
 - Buraliste
