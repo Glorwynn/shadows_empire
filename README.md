@@ -49,7 +49,7 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Drogue
 - Prostitution
 - Guilde de voleurs
-- Guilde d'assassins
+- Guilde d'assassins∏
 
 # Mots clés brut #
 - Système de corruption
