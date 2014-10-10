@@ -19,6 +19,11 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Les différents personnages gagnent en expérience et donc en compétences. [Penser à faire un arbre de compétences]
 - Les différents personnages peuvent être de sexe/race différents, avec ses avantages et inconvénients. [Penser à faire une liste des races et un tableau des bonus/malus]
 
+## Caractéristiques du joueur ##
+- Crainte inspirée
+- Loyauté des serviteurs
+- Influence
+
 ## Titres du joueur ##
 - Buraliste
 - Tavernier
@@ -28,15 +33,21 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 
 ## Bâtiments ##
 (Du plus petit au plus grand)
-- Petite grotte dans un forêt
-- Grande grotte dans une forêt
-- Cave d'une maison
-- Cave d'une auberge
+- Petite grotte
+- Grande grotte
+- Petite cave
+- Grande cave
+- Chaumière
+- Maison
+- Château
+- Forteresse de génie du mal
 
 ## Organisation ##
 (Du plus petit au plus grand)
 
 ## Activités ##
 
-# Mots clé brut #
-- Corruption
+# Mots clés brut #
+- Introduire le système de corruption
+- Notion de distance (Pour aller assassiner un personnage, ça prend plus ou moins de temps en fonction de la distance)
+
