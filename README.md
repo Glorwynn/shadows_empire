@@ -7,7 +7,7 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Emilien (code)
 
 # Jalons du projet #
-- définition des spécifications [en cours]
+- Définition des spécifications [en cours]
 
 # Idées pour les specs du projet #
 - Un jeu basé sur du texte (console, ASCII). Le but pour le héros (avatar du joueur) étant d'évoluer dans une ville med-fan typique. Par "évoluer" on entend survivre, prospérer puis régner dans le "milieu" de la ville en question. Cela inclut différentes activités considérées comme illégales (vol, racket, assassinat, prostitution, traffic (drogues, armes, ???), corruption, terrorisme, ???)
@@ -30,9 +30,7 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Petit dealer 
 - mule
 
-
 ## Bâtiments ##
-(Du plus petit au plus grand)
 - Petite grotte
 - Grande grotte
 - Petite cave
