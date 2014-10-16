@@ -16,6 +16,7 @@ class Character:
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.relations = relations                      # Dictionnaire
         self.RACE_RELATIONS = self.getRaceRelations()   # Dictionnaire (A transformer en classe)
+        self.location = 'Sommet du graphe de carte'     # Pas de type pour l'instant (faut voir comment implémenter la carte)
 
     def __repr__(self):
         return("Je m'appelle {}".format(self.name))
