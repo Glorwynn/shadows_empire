@@ -1,33 +1,13 @@
 from Character import *
+from AttributeSet import *
 
-gloglo = Character(
-                'Glorwynn',     # Nom
-                'humain',       # Race
-                0,              # Carrure
-                0,              # Adresse
-                0,              # Esprit
-                0,              # Sens
-                10,             # Attraits
-                0,              # Ravages
-                10,             # Mystere
-                10,             # Soif de sang
-                5,              # Avidite
-                {'Toto': 3}     # Relations
-                )
-toto = Character(
-                'Toto',
-                'humain',
-                5,
-                5,
-                5,
-                5,
-                5,
-                5,
-                5,
-                5,
-                0,
-                {'Glowynn': 3}
-                )
+attributes_gloglo = AttributeSet(0, 0, 0, 0, 10, 0)
+attributes_toto = AttributeSet(5, 5, 5, 5, 5, 5)
+
+gloglo = Character('Glorwynn', 'humain', attributes_gloglo, 10, 10, 5,
+                   {'Toto': 3})
+
+toto = Character('Toto', 'humain', attributes_toto, 5, 5, 0, {'Glowynn': 3})
 
 print(gloglo.getInfluence())
 print(toto.getObedience(gloglo))
