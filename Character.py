@@ -1,4 +1,5 @@
 from AttributeSet import *
+from CompetenceSet import *
 
 
 class Character:
@@ -8,6 +9,7 @@ class Character:
         self.name = name                                # String
         self.race = race                                # String
         self.attributes = attributes                    # AttributeSet
+        self.competences = competences                  # CompetenceSet
         self.mystery = mystery                          # Integer [0,10]
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
