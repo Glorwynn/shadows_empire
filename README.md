@@ -52,6 +52,7 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 
 ### Bâtiments
 - Premier système : liste de bâtiments en dur, et on progresse petit à petit en achetant un nouveau (on peut imaginer débloquer des nouveaux "tiers" avec chaque achat)
+<<<<<<< HEAD
 - Petite grotte
 - Grande grotte
 - Petite cave
@@ -60,6 +61,16 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Maison
 - Château
 - Forteresse de génie du mal
+=======
+	- Petite grotte
+	- Grande grotte
+	- Petite cave
+	- Grande cave
+	- Chaumière
+	- Maison
+	- Château
+	- Forteresse de génie du mal
+>>>>>>> 978722f03915b20774b01cca58c53032df8eaf8b
 
 - Second système : un système de bâtiments avec une échelle portant sur la position du repère (montagnes/fôret/quartier pauvre/centre-ville/quartier riche) avec un système de bonus/malus pour certains domaines en fonction de la position (quartier riche + corruption = ++, quartier riche + racket = -- ...). Pour représenter la taille du repère et les bonus apportés, on peut aménager le repère avec des pièces à la Dungeon keeper (chambre = +4 capacité du repère, forge = +10% de réussite pour assassinats, traffic arme ...).
 
@@ -81,4 +92,8 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 - Rascisme (au sens propre pour une fois)
 - Arbre de technologiqes (on parlerait de "organisation" puisqu'on a pas vraiement de technologie mais plus des optimisations dans le fonctionnement de la mafia)
 - Matérialiser les clients / indics / flics ... pour avoir plus de mécanismes d'interaction avec l'environnement
+<<<<<<< HEAD
 - Imaginer des peines de prison ? (Jusqu'à présent, un perso qui se fait choper est un perso mort, mais un qui part en prison peut redevenir disponible plus tard, avec des compétences en moins ... ou en plus)
+=======
+- Imaginer des peines de prison ? (Jusqu'à présent, un perso qui se fait choper est un perso mort, mais un qui part en prison peut redevenir disponible plus tard, avec des compétences en moins ... ou en plus)
+>>>>>>> 978722f03915b20774b01cca58c53032df8eaf8b

@@ -23,11 +23,5 @@ class Team:
             self.members.remove(character)
         except ValueError:
             print(character +
-                  " n'est pas dans les membre de l'équipe " +
+                  " n'est pas dans les membre de l'equipe " +
                   self.name)
-
-    def goMission(self, mission):
-        
-
-
-class 

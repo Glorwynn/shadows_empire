@@ -14,12 +14,12 @@ class StealMission(Mission):
     def __init__(self, title, target, reward,
                  level, location, team, duration, object2steal):
         Mission.__init__(self, title, target, reward,
-                         level, location, duration)
+                         level, location, team, duration)
         self.object2steal = object2steal
 
     def successRate(self):
         char_level_effect = 0
-        for char in self.team:
+        for char in self.team.members:
             char_level_effect += (char.competences.stealLevel() - self.level)
         return char_level_effect
 
