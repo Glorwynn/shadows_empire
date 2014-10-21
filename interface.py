@@ -10,120 +10,104 @@ qtApp = QApplication(sys.argv)
 
 class MainWindow(QWidget):
     def __init__(self):
+        # Constants statements
         self.WIN_WIDTH = 1280
         self.WIN_HEIGTH = 1024
         self.TABLE_FONT = QFont("Helvetica", 14, QFont.Bold)
-        self.x = 5
-        self.y = 5
-        self.list_instr = []
+        self.turn_number = 1
+        self.MAX_TURNS = 10
 
+        # Test variables
+        self.leader = "Toto"
+        self.team = ["Bob", "Sam", "Tom", "Phil"]
+
+        # Window initialization
         QWidget.__init__(self)
-        self.setWindowTitle("Fête de la science")
+        self.setWindowTitle("Shadows empire")
         self.setMinimumSize(QSize(self.WIN_WIDTH, self.WIN_HEIGTH))
 
-        self.global_layout = QVBoxLayout()
+        # Layouts statements
+        self.global_layout = QHBoxLayout()
+        self.main_layout = QVBoxLayout()
         self.upper_layout = QHBoxLayout()
+        self.organisation_layout = QVBoxLayout()
+        self.buildings_layout = QVBoxLayout()
+        self.lower_layout = QHBoxLayout()
+        self.details_layout = QFormLayout()
+        self.action_layout = QVBoxLayout()
 
-        self.upper_layout.addStretch(1)
-        self.left_layout = QVBoxLayout()
-        self.left_layout.addStretch(1)
+        # Creating the status zone
+        self.status_zone = QTextEdit(self)
+        self.status_zone.setReadOnly(True)
+        self.status_zone.setMaximumWidth(self.WIN_WIDTH/4)
 
-        self.grid = QTableWidget(8, 8, self)
-        self.grid.setMinimumSize(482, 482)
-        for row in range(0, 8):
-            for col in range(0, 8):
-                self.grid.setRowHeight(row, 60)
-                self.grid.setColumnWidth(col, 60)
+        # Filling the organisation layout
+        self.organisation_tree = QLabel(self.leader)
+        self.organisation_tree2 = QLabel(self.team[0])
 
-                item = QTableWidgetItem()
-                item.setBackground(Qt.white)
-                item.setForeground(Qt.black)
-                item.setFont(self.TABLE_FONT)
-                self.grid.setItem(row, col, item)
+        self.organisation_layout.addWidget(self.organisation_tree)
+        self.organisation_layout.addWidget(self.organisation_tree2)
+        self.organisation_layout.addStretch(1)
 
-        self.grid.horizontalHeader().hide()
-        self.grid.verticalHeader().hide()
+        # Filling the buildings layout
+        self.buildings_tree = QLabel("Repaire")
+        self.buildings_tree2 = QLabel("Dortoir")
 
-        self.left_layout.addWidget(self.grid)
-        self.left_layout.addStretch(1)
-        self.upper_layout.addLayout(self.left_layout)
+        self.buildings_layout.addWidget(self.buildings_tree)
+        self.buildings_layout.addWidget(self.buildings_tree2)
+        self.buildings_layout.addStretch(1)
 
-        self.upper_layout.addStretch(1)
+        # Filling the upper layout
+        self.upper_layout.addLayout(self.organisation_layout)
+        self.upper_layout.addLayout(self.buildings_layout)
 
-        self.right_layout = QVBoxLayout()
-        self.right_layout.addStretch(1)
+        # Filling the details layout
+        self.detail_name_label = QLabel("Name")
+        self.detail_name = QLabel(self.leader)
+        self.detail_role_label = QLabel("Role")
+        self.detail_role = QLabel("Leader")
 
-        self.butt_layout = QFormLayout()
-        self.bt_front = QPushButton("Front", self)
-        self.bt_front.clicked.connect(self.push_front)
-        self.bt_back = QPushButton("Back", self)
-        self.bt_back.clicked.connect(self.push_back)
-        self.bt_left = QPushButton("Left", self)
-        self.bt_left.clicked.connect(self.push_left)
-        self.bt_right = QPushButton("Right", self)
-        self.bt_right.clicked.connect(self.push_right)
+        self.details_layout.addRow(self.detail_name_label, self.detail_name)
+        self.details_layout.addRow(self.detail_role_label, self.detail_role)
 
-        self.bt_go = QPushButton("Lancer le programme !", self)
-        self.bt_go.clicked.connect(self.move)
+        # Filling the action layout
+        self.next_turn_btn = QPushButton("Next turn")
+        self.next_turn_btn.clicked.connect(self.go)
+        self.rename_btn = QPushButton("Rename leader")
+        self.rename_btn.clicked.connect(self.rename)
 
-        self.butt_layout.addRow(self.bt_front, self.bt_back)
-        self.butt_layout.addRow(self.bt_left, self.bt_right)
-        self.right_layout.addLayout(self.butt_layout)
-        self.right_layout.addWidget(self.bt_go)
-        self.right_layout.addStretch(1)
+        self.action_layout.addWidget(self.next_turn_btn)
+        self.action_layout.addWidget(self.rename_btn)
 
-        self.upper_layout.addLayout(self.right_layout)
-        self.global_layout.addLayout(self.upper_layout)
+        # Filling the lower layout
+        self.lower_layout.addLayout(self.details_layout)
+        self.lower_layout.addLayout(self.action_layout)
 
-        self.text_zone = QTextEdit(self)
-        self.text_zone.setReadOnly(True)
-        self.global_layout.addWidget(self.text_zone)
+        # Filling the main layout
+        self.main_layout.addLayout(self.upper_layout)
+        self.main_layout.addLayout(self.lower_layout)
 
+        # Filling the global layout
+        self.global_layout.addWidget(self.status_zone)
+        self.global_layout.addLayout(self.main_layout)
         self.setLayout(self.global_layout)
 
     @Slot()
-    def push_front(self):
-        self.text_zone.append("pl.avance()")
-        self.list_instr += ["front"]
+    def rename(self):
+        self.leader = "Maurice"
+        self.detail_name.setText(self.leader)
+        self.status_zone.append("The leader is now named {}".format(self.leader))
 
     @Slot()
-    def push_back(self):
-        self.text_zone.append("pl.recule()")
-        self.list_instr += ["back"]
+    def go(self):
+        self.status_zone.append("Turn {} done !".format(self.turn_number))
+        self.turn_number += 1
 
-    @Slot()
-    def push_left(self):
-        self.text_zone.append("pl.gauche()")
-        self.list_instr += ["left"]
-
-    @Slot()
-    def push_right(self):
-        self.text_zone.append("pl.droite()")
-        self.list_instr += ["right"]
-
-    @Slot()
-    def move(self):
-        for instr in self.list_instr:
-            if instr == "front":
-                self.grid.item(self.x, self.y).setText("")
-                self.x -= 1
-                self.grid.item(self.x, self.y).setText("O")
-            elif instr == "back":
-                self.grid.item(self.x, self.y).setText("")
-                self.x += 1
-                self.grid.item(self.x, self.y).setText("O")
-            elif instr == "left":
-                self.grid.item(self.x, self.y).setText("")
-                self.y -= 1
-                self.grid.item(self.x, self.y).setText("O")
-            elif instr == "right":
-                self.grid.item(self.x, self.y).setText("")
-                self.y += 1
-                self.grid.item(self.x, self.y).setText("O")
+        if self.turn_number >= self.MAX_TURNS:
+            pass
 
     def run(self):
         self.show()
-        self.grid.item(self.x, self.y).setText("O")
         qtApp.exec_()
 
 app = MainWindow()
