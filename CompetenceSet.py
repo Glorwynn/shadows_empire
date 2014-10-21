@@ -4,6 +4,11 @@ class CompetenceSet:
         self.stealing = stealing
         self.lockpicking = lockpicking
 
+    def __repr__(self):
+        return("Furtivite : {}\n".format(self.furtivity) +
+               "Stealing : {}\n".format(self.stealing) +
+               "Lockpicking : {}".format(self.stealing))
+
     def upgrade(self, competence, value):
         competence += value
 
@@ -12,7 +17,3 @@ class CompetenceSet:
 
     def stealLevel(self):
         return((self.furtivity + self.stealing + self.lockpicking)/3)
-
-comp = CompetenceSet(2, 2, 2)
-comp.upgrade(comp.furtivity, 1)
-print(comp.stealLevel())

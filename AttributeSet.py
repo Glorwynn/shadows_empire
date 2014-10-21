@@ -10,9 +10,9 @@ class AttributeSet:
         self.rage = rage
 
     def __repr__(self):
-        return("Constitution: {}\n"
-               "Agility: {}\n"
-               "Esprit: {}\n"
-               "Sensitivity: {}\n"
-               "Attractivity: {}\n"
-               "Rage: {}\n")
+        return("Constitution: {}\n".format(self.constitution) +
+               "Agility: {}\n".format(self.agility) +
+               "Esprit: {}\n".format(self.esprit) +
+               "Sensitivity: {}\n".format(self.sensitivity) +
+               "Attractivity: {}\n".format(self.attractivity) +
+               "Rage: {}\n".format(self.rage))

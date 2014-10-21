@@ -5,7 +5,7 @@ from CompetenceSet import *
 class Character:
     """A class for Characters."""
     def __init__(self, name, race, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, relations):
+                 mystery, blood_thirst, greed_lvl, gold, relations):
         self.name = name                                # String
         self.race = race                                # String
         self.attributes = attributes                    # AttributeSet
@@ -13,6 +13,7 @@ class Character:
         self.mystery = mystery                          # Integer [0,10]
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
+        self.gold = gold                                # Integer
         self.relations = relations                      # Dictionnary
         self.RACE_RELATIONS = self.raceRelations()      # Dictionnary
         self.location = 'Sommet du graphe de carte'     # String (by now)
