@@ -8,6 +8,23 @@ from PySide.QtGui import *
 qtApp = QApplication(sys.argv)
 
 
+class ListModel(QStandardItemModel):
+    def __init__(self, data, parent):
+        QStandardItemModel.__init__(self)
+        self._items = data
+
+    def rowCount(self, parent=QModelIndex()):
+        return(len(self._items))
+
+    def data(self, index, role=Qt.DisplayRole):
+        return(self._items[index.row()])
+
+
+class TreeView(QListView):
+    def __init__(self, parent=None):
+        QListView.__init__(self, parent)
+
+
 class MainWindow(QWidget):
     def __init__(self):
         # Constants statements
@@ -90,13 +107,23 @@ class MainWindow(QWidget):
         # Filling the global layout
         self.global_layout.addWidget(self.status_zone)
         self.global_layout.addLayout(self.main_layout)
+
+        self.truc = QListView()
+        m = QStandardItemModel(self.truc)
+        for truc in self.team:
+            item = QStandardItem(truc)
+            item.setCheckable(True)
+            m.appendRow(item)
+        self.truc.setModel(m)
+        self.global_layout.addWidget(self.truc)
+
         self.setLayout(self.global_layout)
 
     @Slot()
     def rename(self):
         self.leader = "Maurice"
         self.detail_name.setText(self.leader)
-        self.status_zone.append("The leader is now named {}".format(self.leader))
+        self.status_zone.append("The leader is now {}".format(self.leader))
 
     @Slot()
     def go(self):
