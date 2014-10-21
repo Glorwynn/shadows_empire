@@ -15,4 +15,4 @@ class CompetenceSet:
 
 comp = CompetenceSet(2, 2, 2)
 comp.upgrade(comp.furtivity, 1)
-print(comp.furtivity)
+print(comp.stealLevel())

@@ -4,7 +4,7 @@ from CompetenceSet import *
 
 class Character:
     """A class for Characters."""
-    def __init__(self, name, race, attributes,
+    def __init__(self, name, race, attributes, competences,
                  mystery, blood_thirst, greed_lvl, relations):
         self.name = name                                # String
         self.race = race                                # String
@@ -25,7 +25,7 @@ class Character:
             return({'humain': -5})
 
     def getInfluence(self):
-        at_blth = (self.attractness + self.blood_thirst)/4
+        at_blth = (self.attributes.attractivity + self.blood_thirst)/4
         if at_blth == 0:
             return 0
         else:

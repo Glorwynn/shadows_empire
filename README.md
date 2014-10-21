@@ -52,14 +52,14 @@ Projet de développement d'un jeu de gestion détournant les classiques du genre
 
 ### Bâtiments
 - Premier système : liste de bâtiments en dur, et on progresse petit à petit en achetant un nouveau (on peut imaginer débloquer des nouveaux "tiers" avec chaque achat)
-	- Petite grotte
-	- Grande grotte
-	- Petite cave
-	- Grande cave
-	- Chaumière
-	- Maison
-	- Château
-	- Forteresse de génie du mal
+- Petite grotte
+- Grande grotte
+- Petite cave
+- Grande cave
+- Chaumière
+- Maison
+- Château
+- Forteresse de génie du mal
 
 - Second système : un système de bâtiments avec une échelle portant sur la position du repère (montagnes/fôret/quartier pauvre/centre-ville/quartier riche) avec un système de bonus/malus pour certains domaines en fonction de la position (quartier riche + corruption = ++, quartier riche + racket = -- ...). Pour représenter la taille du repère et les bonus apportés, on peut aménager le repère avec des pièces à la Dungeon keeper (chambre = +4 capacité du repère, forge = +10% de réussite pour assassinats, traffic arme ...).
 
