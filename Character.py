@@ -95,7 +95,7 @@ class Character:
         """
         print("{} vous propose une quete a l'equipe {}"
               .format(self.name, team.name))
-        team.addWaitingQuest(quest)
+        team.waiting_Quest += [quest]
 
     def createTeam(self, name, description):
         """

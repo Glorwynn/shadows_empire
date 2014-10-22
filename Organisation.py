@@ -23,11 +23,11 @@ class Organisation:
         Compute the influence value of the Organisation
         - output : integer
         """
-        sum_Members_Influence = 0
+        sum_Influence = 0
         for char in self.members:
             sum_Influence += char.getInfluence()
         value = (chief.getInfluence() + sum_Influence) / len(self.members)
-        return(int(value)
+        return(int(value))
 
 
 class Team:
