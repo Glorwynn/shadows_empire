@@ -1,4 +1,13 @@
 class CompetenceSet:
+
+    """
+    Class of Competence set of Characters
+    Parameters :
+        - furtivity (Integer [0,20])
+        - stealing (Integer [0,20])
+        - lockpicking (Integer [0,20])
+    """
+
     def __init__(self, furtivity, stealing, lockpicking):
         self.furtivity = furtivity
         self.stealing = stealing

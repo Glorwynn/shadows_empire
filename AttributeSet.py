@@ -1,5 +1,14 @@
 class AttributeSet:
-    """docstring for AttributeSet"""
+    """
+    Class of attribut set of Characters
+    Parameters :
+        - constitution (Integer [0,10])
+        - agility (Integer [0,10])
+        - esprit (Integer [0,10])
+        - sensitivity (Integer [0,10])
+        - attractivity (Integer [0,10])
+        - rage (Integer [0,10])
+    """
     def __init__(self, constitution, agility, esprit, sensitivity,
                  attractivity, rage):
         self.constitution = constitution
