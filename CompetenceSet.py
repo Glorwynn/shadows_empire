@@ -18,10 +18,10 @@ class CompetenceSet:
                "Stealing : {}\n".format(self.stealing) +
                "Lockpicking : {}".format(self.stealing))
 
-    def upgrade(self, competence, value):
+    def upgrade(self, competence, value):  # Non fonctionnel
         competence += value
 
-    def downgrade(self, competence, value):
+    def downgrade(self, competence, value):  #Non fonctionnel
         competence -= value
 
     def stealLevel(self):

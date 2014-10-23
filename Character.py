@@ -11,28 +11,35 @@ class Character:
         - id (Integer)
         - name (String)
         - race (String)
+        - Health points (Integer)
         - attributes set (Instance of AttributeSet)
         - competences set (Instance of CompetenceSet)
         - mystery Value (Integer [0,10])
         - blood thirst Value (Integer [0,10])
         - level of greed (Integer [0,10])
         - gold (Integer)
+        - equiped weapon / jewelry (Dictionnary of Objects= Location: Object)
+        - other objets (List of Objects= Object: number)
         - relations (Dictionnary of Integer)
         - RACE_RELATIONS (Dictionnary of Integer)
         - Location (Instance of Location)
     """
 
-    def __init__(self, idChar, name, race, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, gold, relations):
+    def __init__(self, idChar, name, race, HP, attributes, competences,
+                 mystery, blood_thirst, greed_lvl, gold, equipment,
+                 other_Objects, relations):
         self.idChar = idChar                            # Integer
         self.name = name                                # String
         self.race = race                                # String
+        self.HP = HP                                    # Integer
         self.attributes = attributes                    # AttributeSet
         self.competences = competences                  # CompetenceSet
         self.mystery = mystery                          # Integer [0,10]
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.gold = gold                                # Integer
+        self.equipment = equipment                      # Dictionnary
+        self.other_Objects = other_Objects
         self.relations = relations                      # Dictionnary
         self.RACE_RELATIONS = self.raceRelations()      # Dictionnary
         self.location = 'Sommet du graphe de carte'     # String (by now)
@@ -102,37 +109,64 @@ class Character:
         Create a new team and upgrade the player to TeamChief.
         - output : None
         """
-        chief = TeamChief(self.idChar, self.name, self.race, self.attributes,
-                          self.competences, self.mystery,
+        chief = TeamChief(self.idChar, self.name, self.race, self.HP,
+                          self.attributes, self.competences, self.mystery,
                           self.blood_thirst, self.greed_lvl,
-                          self.gold, self.relations)
+                          self.gold, self.equipment,
+                          self.other_Objects, self.relations)
         del self
         return(Team(name, chief, [chief], 0, description))
+
+    def equip(object, location):
+        # Ajouter condition pour vérifier que l'objet est au moins
+        # un UsefulObjectMission
+        # Signaler s'il y a un autre objet à l'emplacement location
+        # Vérifier que le joueur peux utiliser l'objet
+        if weapon in self.other_Objects:
+            self.equipment[location] = weapon
+        else:
+            print("Vous n'avez pas cette arme dans votre inventaire")
+
+    def unequip(location):
+        try:
+            if self.equipment[location] in self.other_Objects:
+                self.other_Objects[self.equipment[location]] += 1
+            else:
+                self.other_Objects[self.equipment[location]] = 1
+            self.other_Objects[location] = None
+        except:
+            print("Vous n'avez rien équipé à cet endroit")
 
 
 class TeamChief(Character):
 
     """
-    Class for the team chief.
+    A class for Characters.
     Parameters :
         - id (Integer)
         - name (String)
         - race (String)
+        - Health points (Integer)
         - attributes set (Instance of AttributeSet)
         - competences set (Instance of CompetenceSet)
         - mystery Value (Integer [0,10])
         - blood thirst Value (Integer [0,10])
         - level of greed (Integer [0,10])
         - gold (Integer)
+        - equiped weapon / jewelry (Dictionnary of Objects= Location: Object)
+        - other objets (List of Objects= Object: number)
         - relations (Dictionnary of Integer)
         - RACE_RELATIONS (Dictionnary of Integer)
         - Location (Instance of Location)
     """
 
-    def __init__(self, idChar, name, race, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, gold, relations):
-        Character.__init__(self, idChar, name, race, attributes, competences,
-                           mystery, blood_thirst, greed_lvl, gold, relations)
+    def __init__(self, idChar, name, race, HP, attributes, competences,
+                 mystery, blood_thirst, greed_lvl, gold, equipment,
+                 other_Objects, relations):
+        Character.__init__(self, idChar, name, race, HP, attributes,
+                           competences, mystery, blood_thirst,
+                           greed_lvl, gold, equipment,
+                           other_Objects, relations)
 
     def addMember(self, character, team):
         """
