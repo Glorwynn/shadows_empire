@@ -8,21 +8,19 @@ from PySide.QtGui import *
 qtApp = QApplication(sys.argv)
 
 
-class ListModel(QStandardItemModel):
-    def __init__(self, data, parent):
+class TeamModel(QStandardItemModel):
+    def __init__(self, leader, members):
         QStandardItemModel.__init__(self)
-        self._items = data
-
-    def rowCount(self, parent=QModelIndex()):
-        return(len(self._items))
-
-    def data(self, index, role=Qt.DisplayRole):
-        return(self._items[index.row()])
+        self._leader = QStandardItem(leader)
+        self._members = [QStandardItem(member) for member in members]
+        self.appendRow(self._leader)
+        for member in self._members:
+            self._leader.appendRow(member)
 
 
-class TreeView(QListView):
+class TreeView(QTreeView):
     def __init__(self, parent=None):
-        QListView.__init__(self, parent)
+        QTreeView.__init__(self, parent)
 
 
 class MainWindow(QWidget):
@@ -35,8 +33,11 @@ class MainWindow(QWidget):
         self.MAX_TURNS = 10
 
         # Test variables
-        self.leader = "Toto"
-        self.team = ["Bob", "Sam", "Tom", "Phil"]
+        self.leader = "Splinter"
+        self.team = ["Michelangelo", "Rafaelo", "Leonardo", "Donatello"]
+        self.lair = "Grande cave dans le ghetto orc"
+        self.lair_compo = ["Dortoir (4 places)", "Chambre du maître",
+                           "Terrain d'entraînement Ninju-Tsu", "Four à pizzas"]
 
         # Window initialization
         QWidget.__init__(self)
@@ -59,19 +60,19 @@ class MainWindow(QWidget):
         self.status_zone.setMaximumWidth(self.WIN_WIDTH/4)
 
         # Filling the organisation layout
-        self.organisation_tree = QLabel(self.leader)
-        self.organisation_tree2 = QLabel(self.team[0])
+        self.team = TeamModel(self.leader, self.team)
+        self.organisation_tree = TreeView()
+        self.organisation_tree.setModel(self.team)
 
         self.organisation_layout.addWidget(self.organisation_tree)
-        self.organisation_layout.addWidget(self.organisation_tree2)
         self.organisation_layout.addStretch(1)
 
         # Filling the buildings layout
-        self.buildings_tree = QLabel("Repaire")
-        self.buildings_tree2 = QLabel("Dortoir")
+        self.place = TeamModel(self.lair, self.lair_compo)
+        self.buildings_tree = TreeView()
+        self.buildings_tree.setModel(self.place)
 
         self.buildings_layout.addWidget(self.buildings_tree)
-        self.buildings_layout.addWidget(self.buildings_tree2)
         self.buildings_layout.addStretch(1)
 
         # Filling the upper layout
@@ -107,15 +108,6 @@ class MainWindow(QWidget):
         # Filling the global layout
         self.global_layout.addWidget(self.status_zone)
         self.global_layout.addLayout(self.main_layout)
-
-        self.truc = QListView()
-        m = QStandardItemModel(self.truc)
-        for truc in self.team:
-            item = QStandardItem(truc)
-            item.setCheckable(True)
-            m.appendRow(item)
-        self.truc.setModel(m)
-        self.global_layout.addWidget(self.truc)
 
         self.setLayout(self.global_layout)
 
