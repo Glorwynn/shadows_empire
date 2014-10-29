@@ -1,4 +1,4 @@
-from Models import *
+from DataModels import *
 from DetailsBox import *
 
 
@@ -88,7 +88,7 @@ class MainWidget(QWidget):
     @Slot()
     def rename(self):
         self.leader = self.renameDialog()
-        self.detail_name.setText(self.leader)
+        self.details_box.name.setText(self.leader)
         self.organisation_tree._leader.setText(0, self.leader)
         self.status_zone.append("The leader is now {}.".format(self.leader))
 

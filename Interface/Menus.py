@@ -3,7 +3,6 @@ from PySide.QtGui import *
 
 
 class FileMenu(QMenu):
-
     def __init__(self, parent):
         QMenu.__init__(self, "&File")
         self.parent = parent
