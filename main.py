@@ -9,6 +9,4 @@ gloglo = Character('Glorwynn', 'humain', attributes_gloglo, 10, 10, 5,
 
 toto = Character('Toto', 'humain', attributes_toto, 5, 5, 0, {'Glowynn': 3})
 
-print(gloglo.getInfluence())
-print(toto.getObedience(gloglo))
-print(toto.getLoyalty(gloglo))
+print(gloglo.name)

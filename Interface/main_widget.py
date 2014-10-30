@@ -1,5 +1,5 @@
-from DataModels import *
-from DetailsBox import *
+from models import *
+from details_box import *
 
 
 class MainWidget(QWidget):
@@ -62,13 +62,10 @@ class MainWidget(QWidget):
         # Filling the buttons layout
         self.rename_btn = QPushButton("Rename leader")
         self.rename_btn.clicked.connect(self.rename)
-        self.quit_btn = QPushButton("Quit Game")
-        self.quit_btn.clicked.connect(self.parent.qtApp.quit)
         self.next_turn_btn = QPushButton("Next turn")
         self.next_turn_btn.clicked.connect(self.go)
 
         self.btn_layout.addWidget(self.rename_btn, 0, 0)
-        self.btn_layout.addWidget(self.quit_btn, 0, 1)
         self.btn_layout.addWidget(self.next_turn_btn, 1, 0, 1, 2)
 
         # Filling the main layout
