@@ -34,7 +34,7 @@ class EquipmentItem(Item):
                  enchantments, required_Level):
         Item.__init__(self, name, weight, value)
         self.enchantments = enchantments
-        self.required_Level
+        self.required_Level = required_Level
 
     def equipEffect(character):
         """
@@ -48,7 +48,7 @@ class EquipmentItem(Item):
         """
         Disapply enchantments on the character
         - output: None
-        """ 
+        """
         for effect in enchantments:
             effect.disapply(character)
 
@@ -91,10 +91,10 @@ class Armor(EquipmentItem):
 
     def __init__(self, name, weight, value,
                  enchantments, required_Level, resistance, location):
-        Item.__init__(self, name, weight, value,
-                      enchantments, required_Level)
+        EquipmentItem.__init__(self, name, weight,
+                               value, enchantments, required_Level)
         self.resistance = resistance
-        self.aType = aType
+        self.location = location
 
 
 class Jewelry(EquipmentItem):

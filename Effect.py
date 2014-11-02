@@ -4,7 +4,7 @@ from Character import *
 class Effect:
 
     def __init__(self, idEffect, name, variable, value, delay):
-        # Peut être ajouter les éléments
+        # Peut etre ajouter les elements
         self.idEffect = idEffect
         self.name = name
         self.variable = variable

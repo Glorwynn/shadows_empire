@@ -1,6 +1,7 @@
 from AttributeSet import *
 from CompetenceSet import *
 from Organisation import *
+from Equipment import *
 
 
 class Character:
@@ -27,7 +28,7 @@ class Character:
 
     def __init__(self, idChar, name, race, HP, attributes, competences,
                  mystery, blood_thirst, greed_lvl, gold, equipment,
-                 other_Objects, relations):
+                 bagpack, relations):
         self.idChar = idChar                            # Integer
         self.name = name                                # String
         self.race = race                                # String
@@ -39,7 +40,7 @@ class Character:
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.gold = gold                                # Integer
         self.equipment = equipment                      # Dictionnary
-        self.other_Objects = other_Objects
+        self.bagpack = bagpack
         self.relations = relations                      # Dictionnary
         self.RACE_RELATIONS = self.raceRelations()      # Dictionnary
         self.location = 'Sommet du graphe de carte'     # String (by now)
@@ -95,6 +96,29 @@ class Character:
         """
         return(self.getObedience(character) + (self.greed_lvl - 5))
 
+    def equipWeapon(self, weapon, hand="right"):
+        """
+        Add the weapon in the equipment and apply enchantement
+        on character.
+        - output: None
+        """
+        if weapon in self.bagpack:
+            self.equipment.addWeapon(weapon, hand)
+            self.bagpack.removeItem(weapon)
+            weapon.equipEffect(self)
+        else:
+            print("Vous ne possedez pas cet objet")
+
+    def unequipWeapon(self, hand="all"):
+        """
+        Remove a weapon from equipment
+        - output: None
+        """
+        if hand == 'right':
+            if not(self.equipment.right_hand is None):
+                self.bagpack.addItem(self.equipment.right_hand)
+                self.equipment.removeWeapon()
+
     def questRequest(self, quest, team):
         """
         Add a quest in waiting quest list of team.
@@ -113,29 +137,21 @@ class Character:
                           self.attributes, self.competences, self.mystery,
                           self.blood_thirst, self.greed_lvl,
                           self.gold, self.equipment,
-                          self.other_Objects, self.relations)
+                          self.bagpack, self.relations)
         del self
         return(Team(name, chief, [chief], 0, description))
 
-    def equip(object, location):
-        # Ajouter condition pour vérifier que l'objet est au moins
-        # un UsefulObjectMission
-        # Signaler s'il y a un autre objet à l'emplacement location
-        # Vérifier que le joueur peux utiliser l'objet
-        if weapon in self.other_Objects:
-            self.equipment[location] = weapon
-        else:
-            print("Vous n'avez pas cette arme dans votre inventaire")
 
-    def unequip(location):
-        try:
-            if self.equipment[location] in self.other_Objects:
-                self.other_Objects[self.equipment[location]] += 1
-            else:
-                self.other_Objects[self.equipment[location]] = 1
-            self.other_Objects[location] = None
-        except:
-            print("Vous n'avez rien équipé à cet endroit")
+e = Equipment()
+bag = BagPack()
+w = Weapon('arme', 0, 0, [], 0, 10, 'onehand')
+a = Armor('Casque', 0, 0, [], 0, 10, 'head')
+e.addWeapon(w)
+bag.addItem(a)
+print(e.right_hand.name)
+e.removeWeapon('right')
+print(e.right_hand)
+print(bag.armors)
 
 
 class TeamChief(Character):
@@ -162,11 +178,11 @@ class TeamChief(Character):
 
     def __init__(self, idChar, name, race, HP, attributes, competences,
                  mystery, blood_thirst, greed_lvl, gold, equipment,
-                 other_Objects, relations):
+                 bagpack, relations):
         Character.__init__(self, idChar, name, race, HP, attributes,
                            competences, mystery, blood_thirst,
                            greed_lvl, gold, equipment,
-                           other_Objects, relations)
+                           bagpack, relations)
 
     def addMember(self, character, team):
         """
