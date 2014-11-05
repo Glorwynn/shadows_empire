@@ -9,11 +9,12 @@ class MainWidget(QWidget):
         self.turn_number = 1
 
         # Test variables
-        self.leader = "Splinter"
-        self.team = [["Michelangelo", "2", "Vol"],
-                     ["Rafaelo", "1", "Assassinat"],
-                     ["Leonardo", "6", "Prostitution"],
-                     ["Donatello", "4", "Contrebande"]]
+        self.leader = ("Splinter", "10", "Génie du mal")
+        self.team = [self.leader,
+                     (" ", "Michelangelo", "2", "Vol"),
+                     (" ", "Rafaelo", "1", "Assassinat"),
+                     (" ", "Leonardo", "6", "Prostitution"),
+                     (" ", "Donatello", "4", "Contrebande")]
         self.lair = "Grande cave dans le ghetto orc"
         self.lair_compo = ["Dortoir (4 places)", "Chambre du maître",
                            "Terrain d'entraînement Ninju-Tsu", "Four à pizzas"]
@@ -45,9 +46,11 @@ class MainWidget(QWidget):
         self.details_box = DetailsBox(self, "Details")
 
         # Filling the organisation layout
-        self.organisation_tree = OrganisationTree(self, self.leader, self.team)
-        self.organisation_tree.setMaximumWidth(self.parent.WIN_WIDTH/2)
-        self.organisation_layout.addWidget(self.organisation_tree)
+        self.organisation_tree_model = OrganizationTreeModel(self.team)
+        self.organisation_tree_view = QTreeView()
+        self.organisation_tree_view.clicked.connect(self.details_box.display)
+        self.organisation_tree_view.setModel(self.organisation_tree_model)
+        self.organisation_layout.addWidget(self.organisation_tree_view)
         self.organisation_layout.addStretch(1)
 
         # Filling the buildings layout
@@ -86,7 +89,7 @@ class MainWidget(QWidget):
     def rename(self):
         self.leader = self.renameDialog()
         self.details_box.name.setText(self.leader)
-        self.organisation_tree._leader.setText(0, self.leader)
+        self.organisation_tree_model.setLeader(("Ben", "1", "Petite frappe"))
         self.status_zone.append("The leader is now {}.".format(self.leader))
 
     @Slot()

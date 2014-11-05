@@ -79,8 +79,8 @@ class MainWindow(QMainWindow):
 
     def readSettings(self):
         settings = QSettings("Trolltech", "Application Example")
-        self.WIN_WIDTH = 1280
-        self.WIN_HEIGTH = 1024
+        self.WIN_WIDTH = 800
+        self.WIN_HEIGTH = 600
 
         size = settings.value("size", QSize(self.WIN_WIDTH, self.WIN_HEIGTH))
         self.resize(size)

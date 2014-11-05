@@ -35,13 +35,26 @@ class TreeItem:
 
         return(0)
 
+    def setData(self, column, value):
+        if column < 0 or column >= len(self.itemData):
+            return(False)
 
-class TreeModel(QAbstractItemModel):
+        self.itemData[column] = value
+
+        return(True)
+
+
+class OrganizationTreeModel(QAbstractItemModel):
+    headers = ("Name", "Level", "Crime domain")
+
     def __init__(self, data, parent=None):
+        """ data doit être une liste de lignes """
         super().__init__(parent)
 
-        self.rootItem = TreeItem("Title", "Summary")
-        self.setupModelData(data.split('\n'), self.rootItem)
+        self.rootItem = TreeItem(self.headers)
+
+        self._data = data
+        self.setupModelData(self._data, self.rootItem)
 
     def columnCount(self, parent):
         if parent.isValid():
@@ -72,8 +85,8 @@ class TreeModel(QAbstractItemModel):
 
         return(None)
 
-    def index(self, row, colum, parent):
-        if not self.hasIndex(row, colum, parent):
+    def index(self, row, column, parent):
+        if not self.hasIndex(row, column, parent):
             return(QModelIndex())
 
         if not parent.isValid():
@@ -94,46 +107,67 @@ class TreeModel(QAbstractItemModel):
         childItem = index.internalPointer()
         parentItem = childItem.parent()
         if parentItem == self.rootItem:
-            return(QtCore.QModelIndex())
+            return(QModelIndex())
 
         return(self.createIndex(parentItem.row(), 0, parentItem))
 
+    def rowCount(self, parent):
+        if parent.column() > 0:
+            return(0)
 
-class OrganisationTree(QTreeWidget):
-    headers = ["Nom", "Niveau", "Domaine de crime"]
-    #interested = Signal(str)
+        if not parent.isValid():
+            parentItem = self.rootItem
+        else:
+            parentItem = parent.internalPointer()
 
-    def __init__(self, parent, leader, members):
-        QTreeWidget.__init__(self)
-        self.parent = parent
-        self.setColumnCount(3)
-        self.setHeaderLabels(self.headers)
+        return(parentItem.childCount())
 
-        self._leader = leader
+    def setLeader(self, leader):
+        self._data = [leader] + self._data[1:]
 
-        self._leader_item = QTreeWidgetItem(self)
-        self._leader_item.setText(0, self._leader)
+    def setData(self, index, value, role=Qt.EditRole):
+        item = self.getItem(index)
+        result = item.setData(index.column(), value)
 
-        for member in members:
-            self._members = QTreeWidgetItem(self._leader_item)
-            for i in range(len(member)):
-                self._members.setText(i, member[i])
+        return(result)
 
-            if member[2] == "Vol":
-                self._members.setForeground(0, QColor(Qt.green))
-            elif member[2] == "Assassinat":
-                self._members.setForeground(0, QColor(Qt.red))
-            elif member[2] == "Prostitution":
-                self._members.setForeground(0, QColor(Qt.blue))
-            elif member[2] == "Contrebande":
-                self._members.setForeground(0, QColor(Qt.gray))
+    def setupModelData(self, lines, parent):
+        parents = [parent]
+        indentations = [0]
 
-        self.itemClicked.connect(self.parent.details_box.display)
-        #self.interested.connect(self.parent.details_box.display)
+        number = 0
 
-    @Slot()
-    def punch(self):
-        self.interested.emit("Blabla")
+        while number < len(lines):
+            position = 0
+            while position < len(lines[number]):
+                if lines[number][position] != ' ':
+                    break
+                position += 1
+
+            lineData = lines[number][position:]
+
+            if lineData:
+                # Read the column data from the rest of the line.
+                columnData = [s for s in lineData if s]
+
+                if position > indentations[-1]:
+                    # The last child of the current parent is now the new
+                    # parent unless the current parent has no children.
+
+                    if parents[-1].childCount() > 0:
+                        parents.append(parents[-1].child(parents[-1]
+                                                  .childCount() - 1))
+                        indentations.append(position)
+
+                else:
+                    while position < indentations[-1] and len(parents) > 0:
+                        parents.pop()
+                        indentations.pop()
+
+                # Append a new item to the current parent's list of children.
+                parents[-1].appendChild(TreeItem(columnData, parents[-1]))
+
+            number += 1
 
 
 class BuildingsTree(QTreeWidget):

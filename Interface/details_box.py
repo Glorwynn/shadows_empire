@@ -26,8 +26,8 @@ class DetailsBox(QGroupBox):
 
         self.setLayout(self.details_layout)
 
-    @Slot(QTreeWidgetItem, int)
-    def display(self, item, col):
-        self.name.setText(item.text(0))
-        self.lvl.setText(item.text(1))
-        self.role.setText(item.text(2))
+    @Slot(QModelIndex)
+    def display(self, item):
+        self.name.setText(item.sibling(item.row(), 0).data())
+        self.lvl.setText(item.sibling(item.row(), 1).data())
+        self.role.setText(item.sibling(item.row(), 2).data())
