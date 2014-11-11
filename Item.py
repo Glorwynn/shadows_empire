@@ -112,7 +112,7 @@ class Jewelry(EquipmentItem):
 
     def __init__(self, name, weight, value,
                  enchantments, required_Level, jType):
-        Item.__init__(self, name, weight, value,
+        EquipmentItem.__init__(self, name, weight, value,
                       enchantments, required_Level)
         self.jType = jType
 

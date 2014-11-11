@@ -15,10 +15,10 @@ class Equipment:
         - feet: Armor
         - right_hand: Weapon
         - left_hand: Weapon
-        - right_hand_finger_1: Jewelry
-        - right_hand_finger_2: Jewelry
-        - left_hand_finger_1: Jewelry
-        - left_hand_finger_2: Jewelry
+        - right1: Jewelry
+        - right2: Jewelry
+        - left1: Jewelry
+        - left2: Jewelry
         - neck: Jewelry
         - wrist: Jewelry
     """
@@ -33,10 +33,10 @@ class Equipment:
         self.feet = None
         self.right_hand = None
         self.left_hand = None
-        self.right_hand_finger_1 = None
-        self.right_hand_finger_2 = None
-        self.left_hand_finger_1 = None
-        self.left_hand_finger_2 = None
+        self.right1 = None
+        self.right2 = None
+        self.left1 = None
+        self.left2 = None
         self.neck = None
         self.wrist = None
 
@@ -103,17 +103,17 @@ class Equipment:
 
     def removeArmor(self, location="all"):
         if location == "head":
-            self.head = item
+            self.head = None
         elif location == "shoulers":
-            self.shoulders == item
+            self.shoulders == None
         elif location == "arms":
-            self.arms = item
+            self.arms = None
         elif location == "trunk":
-            self.trunk = item
+            self.trunk = None
         elif location == "legs":
-            self.legs = item
+            self.legs = None
         elif location == "feet":
-            self.feet = item
+            self.feet = None
         elif location == "all":
             self.head = None
             self.shoulders = None
@@ -124,7 +124,7 @@ class Equipment:
         else:
             print("L'emplacement est invalide")
 
-    def addJewelry(self, item, finger=None):
+    def addJewelry(self, item, finger='right1'):
         """
         Add Jewelry in Equipment
         - output: None
@@ -132,13 +132,13 @@ class Equipment:
         try:
             if item.jType == 'ring':
                 if finger == 'right1':
-                    self.right_hand_finger_1 = item
+                    self.right1 = item
                 elif finger == 'right2':
-                    self.right_hand_finger_2 = item
+                    self.right2 = item
                 elif finger == 'left1':
-                    self.left_hand_finger_1 = item
+                    self.left1 = item
                 elif finger == 'left2':
-                    self.left_hand_finger_2 = item
+                    self.left2 = item
                 else:
                     if finger is None:
                         print("Il faut indiquer sur quel doigt" +
@@ -156,22 +156,22 @@ class Equipment:
 
     def removeJewelry(self, location="all"):
         if location == "right1":
-            self.right_hand_finger_1 = None
+            self.right1 = None
         elif location == "right2":
-            self.right_hand_finger_2 = None
+            self.right2 = None
         elif location == "left1":
-            self.left_hand_finger_1 = None
+            self.left1 = None
         elif location == "left2":
-            self.left_hand_finger_2 = None
+            self.left2 = None
         elif location == "neck":
             self.neck = None
         elif location == "wrist":
             self.wrist = None
         elif location == "all":
-            self.right_hand_finger_1 = None
-            self.right_hand_finger_2 = None
-            self.left_hand_finger_1 = None
-            self.left_hand_finger_2 = None
+            self.right1 = None
+            self.right2 = None
+            self.left1 = None
+            self.left2 = None
             self.neck = None
             self.wrist = None
         else:
@@ -197,65 +197,65 @@ class BagPack:
         self.jewelries = {}
         self.useless_Items = {}
 
-    def addItem(self, item):
+    def addItem(self, item, number):
         """
         Add an Item in BagPack
         - output: None
         """
         if isinstance(item, Weapon):
             if item in self.weapons:
-                self.weapons[item] += 1
+                self.weapons[item] += number
             else:
-                self.weapons[item] = 1
+                self.weapons[item] = number
         elif isinstance(item, Armor):
             if item in self.armors:
-                self.armors[item] += 1
+                self.armors[item] += number
             else:
-                self.armors[item] = 1
+                self.armors[item] = number
         elif isinstance(item, Jewelry):
             if item in self.jewelries:
-                self.jewelries[item] += 1
+                self.jewelries[item] += number
             else:
-                self.jewelries[item] = 1
+                self.jewelries[item] = number
         elif isinstance(item, Potion):
             if item in self.potions:
-                self.potions[item] += 1
+                self.potions[item] += number
             else:
-                self.potions[item] = 1
+                self.potions[item] = number
         else:
             if item in self.useless_Items:
-                self.useless_Items[item] += 1
+                self.useless_Items[item] += number
             else:
-                self.useless_Items[item] = 1
+                self.useless_Items[item] = number
 
-    def removeItem(self, item):
+    def removeItem(self, item, number):
         """
         Remove an Item from BagPack
         - output: None
         """
         if item in self.weapons:
-            if self.weapons[item] > 1:
-                self.weapons[item] -= 1
+            if self.weapons[item] > number:
+                self.weapons[item] -= number
             else:
                 del self.weapons[item]
         elif item in self.armors:
-            if self.armors[item] > 1:
-                self.armors[item] -= 1
+            if self.armors[item] > number:
+                self.armors[item] -= number
             else:
                 del self.armors[item]
         elif item in self.jewelries:
-            if self.jewelries[item] > 1:
-                self.jewelries[item] -= 1
+            if self.jewelries[item] > number:
+                self.jewelries[item] -= number
             else:
                 del self.jewelries[item]
         elif item in self.potions:
-            if self.potions[item] > 1:
-                self.potions[item] -= 1
+            if self.potions[item] > number:
+                self.potions[item] -= number
             else:
                 del self.potions[item]
         elif item in self.useless_Items:
-            if self.useless_Items[item] > 1:
-                self.useless_Items[item] -= 1
+            if self.useless_Items[item] > number:
+                self.useless_Items[item] -= number
             else:
                 del self.useless_Items[item]
         else:

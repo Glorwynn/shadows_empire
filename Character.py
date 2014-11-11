@@ -27,8 +27,7 @@ class Character:
     """
 
     def __init__(self, idChar, name, race, HP, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, gold, equipment,
-                 bagpack, relations):
+                 mystery, blood_thirst, greed_lvl, gold, relations):
         self.idChar = idChar                            # Integer
         self.name = name                                # String
         self.race = race                                # String
@@ -39,8 +38,8 @@ class Character:
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.gold = gold                                # Integer
-        self.equipment = equipment                      # Dictionnary
-        self.bagpack = bagpack
+        self.equipment = Equipment()                    # Equipment
+        self.bagpack = BagPack()                        # BagPack
         self.relations = relations                      # Dictionnary
         self.RACE_RELATIONS = self.raceRelations()      # Dictionnary
         self.location = 'Sommet du graphe de carte'     # String (by now)
@@ -59,6 +58,10 @@ class Character:
         """
         if self.race == 'humain':
             return({'humain': -5})
+
+    #############################################
+    # Definitions des relations entre personnages
+    #############################################
 
     def getInfluence(self):
         """
@@ -96,28 +99,157 @@ class Character:
         """
         return(self.getObedience(character) + (self.greed_lvl - 5))
 
+    ###########################
+    # Fonctions pour les objets
+    ###########################
+
+    def takeItem(self, item, number=1):
+        """
+        Add an Item in BagPack
+        output: None
+        """
+        self.bagpack.addItem(item, number)
+
+    def putItem(self, item, number=1):
+        """
+        Remove an Item from bagpack
+        output: None
+        """
+        self.bagpack.removeItem(item, number)
+
     def equipWeapon(self, weapon, hand="right"):
         """
-        Add the weapon in the equipment and apply enchantement
-        on character.
-        - output: None
+        Add an Weapon in equipment and remove Weapon from BagPack
+        output: None
         """
-        if weapon in self.bagpack:
+        if weapon in self.bagpack.weapons:
             self.equipment.addWeapon(weapon, hand)
-            self.bagpack.removeItem(weapon)
-            weapon.equipEffect(self)
+            self.putItem(weapon)
         else:
             print("Vous ne possedez pas cet objet")
 
     def unequipWeapon(self, hand="all"):
         """
-        Remove a weapon from equipment
-        - output: None
+        remove an Weapon from equipment dans add Weapon in Bagpack
+        output: None
         """
         if hand == 'right':
             if not(self.equipment.right_hand is None):
-                self.bagpack.addItem(self.equipment.right_hand)
-                self.equipment.removeWeapon()
+                self.takeItem(self.equipment.right_hand)
+            else:
+                print("Vous n'avez pas d'arme a cet emplacement")
+        elif hand == 'left':
+            if not(self.equipment.left_hand is None):
+                self.takeItem(self.equipment.left_hand)
+            print("Vous n'avez rien a cet emplacement")
+        else:
+            self.takeItem(self.equipment.left_hand)
+            self.takeItem(self.equipment.right_hand)
+        self.equipment.removeWeapon(hand)
+
+    def equipArmor(self, armor):
+        """
+        Add armor in equipment and remove armor from bagpack
+        output: None
+        """
+        if armor in self.bagpack.armors:
+            self.equipment.addArmor(armor)
+            self.putItem(armor)
+        else:
+            print("Vous ne possedez pas cet objet")
+
+    def unequipArmor(self, location="all"):
+        """
+        Remove armor from Equipment and add armor in bagpack
+        output: None
+        """
+        if location == 'head':
+            if not(self.equipment.head is None):
+                self.takeItem(self.equipment.head)
+            else:
+                print("Vous n'avez pas d'arme a cet emplacement")
+        elif location == 'shoulders':
+            if not(self.equipment.shoulders is None):
+                self.takeItem(self.equipment.shoulders)
+            else:
+                print("Vous n'avez pas d'arme a cet emplacement")
+        elif location == 'arms':
+            if not(self.equipment.arms is None):
+                self.takeItem(self.equipment.arms)
+            else:
+                print("Vous n'avez pas d'arme a cet emplacement")
+        elif location == 'trunk':
+            if not(self.equipment.trunk is None):
+                self.takeItem(self.equipment.trunk)
+            print("Vous n'avez rien a cet emplacement")
+        elif location == 'legs':
+            if not(self.equipment.legs is None):
+                self.takeItem(self.equipment.legs)
+            else:
+                print("Vous n'avez pas d'arme a cet emplacement")
+        elif location == 'feet':
+            if not(self.equipment.feet is None):
+                self.takeItem(self.equipment.feet)
+            else:
+                print("Vous n'avez pas d'arme a cet emplacement")
+        else:
+            self.takeItem(self.equipment.head)
+            self.takeItem(self.equipment.trunk)
+        self.equipment.removeArmor(location)
+
+    def equipJewelry(self, jewelry):
+        """
+        Add jewelry in equipment and remove jewelry from bagpack
+        output: None
+        """
+        if jewelry in self.bagpack.jewelries:
+            self.equipment.addJewelry(jewelry)
+            self.putItem(jewelry)
+        else:
+            print("Vous ne possedez pas cet objet")
+
+    def unequipJewelry(self, location="all"):
+        """
+        Remove armor from Equipment and add armor in bagpack
+        output: None
+        """
+        if location == 'right1':
+            if not(self.equipment.right1 is None):
+                self.takeItem(self.equipment.right1)
+            else:
+                print("Vous n'avez pas de bijoux a cet emplacement")
+        elif location == 'right2':
+            if not(self.equipment.right2 is None):
+                self.takeItem(self.equipment.right2)
+            else:
+                print("Vous n'avez pas de bijoux a cet emplacement")
+        elif location == 'left1':
+            if not(self.equipment.left1 is None):
+                self.takeItem(self.equipment.left1)
+            else:
+                print("Vous n'avez pas de bijoux a cet emplacement")
+        elif location == 'left2':
+            if not(self.equipment.left2 is None):
+                self.takeItem(self.equipment.left2)
+            print("Vous n'avez rien a cet emplacement")
+        elif location == 'neck':
+            if not(self.equipment.neck is None):
+                self.takeItem(self.equipment.neck)
+            else:
+                print("Vous n'avez pas de bijoux a cet emplacement")
+        elif location == 'wrist':
+            if not(self.equipment.wrist is None):
+                self.takeItem(self.equipment.wrist)
+            else:
+                print("Vous n'avez pas de bijoux a cet emplacement")
+        else:
+            self.takeItem(self.equipment.head)
+            self.takeItem(self.equipment.trunk)
+        self.equipment.removeJewelry(location)
+
+    #####################
+    # Fonctions de quetes
+    #####################
 
     def questRequest(self, quest, team):
         """
@@ -128,6 +260,10 @@ class Character:
               .format(self.name, team.name))
         team.waiting_Quest += [quest]
 
+    ##########################
+    # Fonctions d'organisation
+    ##########################
+
     def createTeam(self, name, description):
         """
         Create a new team and upgrade the player to TeamChief.
@@ -136,22 +272,9 @@ class Character:
         chief = TeamChief(self.idChar, self.name, self.race, self.HP,
                           self.attributes, self.competences, self.mystery,
                           self.blood_thirst, self.greed_lvl,
-                          self.gold, self.equipment,
-                          self.bagpack, self.relations)
+                          self.gold, self.relations)
         del self
         return(Team(name, chief, [chief], 0, description))
-
-
-e = Equipment()
-bag = BagPack()
-w = Weapon('arme', 0, 0, [], 0, 10, 'onehand')
-a = Armor('Casque', 0, 0, [], 0, 10, 'head')
-e.addWeapon(w)
-bag.addItem(a)
-print(e.right_hand.name)
-e.removeWeapon('right')
-print(e.right_hand)
-print(bag.armors)
 
 
 class TeamChief(Character):
@@ -177,12 +300,10 @@ class TeamChief(Character):
     """
 
     def __init__(self, idChar, name, race, HP, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, gold, equipment,
-                 bagpack, relations):
+                 mystery, blood_thirst, greed_lvl, gold, relations):
         Character.__init__(self, idChar, name, race, HP, attributes,
                            competences, mystery, blood_thirst,
-                           greed_lvl, gold, equipment,
-                           bagpack, relations)
+                           greed_lvl, gold, relations)
 
     def addMember(self, character, team):
         """
@@ -221,7 +342,7 @@ class TeamChief(Character):
             team.waiting_Quest.remove(quest)
             team.quest_Queue += [quest]
         except ValueError:
-            print("Cette quete n'est pas dans les quetes en attente")
+            print("Cette quete ne vous a pas ete proposee")
 
     def refuseQuestRequest(self, quest, team):
         """
@@ -231,4 +352,4 @@ class TeamChief(Character):
         try:
             team.waiting_Quest.remove(quest)
         except ValueError:
-            print("Cette quete n'est pas dans les quetes en attente")
+            print("Cette quete ne vous a pas ete proposee")

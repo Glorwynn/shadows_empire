@@ -1,9 +1,6 @@
 from Character import *
-from AttributeSet import *
-from CompetenceSet import *
-from Organisation import *
 from Quest import *
-from Object import *
+
 
 # Actions fonctionnelles :
 # - Calcule de la valeur d'infuence d'un personnage
@@ -20,44 +17,48 @@ from Object import *
 # - Bonus de l'equipe sur la quete
 # - Pourcentage de reussite de l'equipe pour la quete
 # - effectuer une quete
+# - Ajouter un objet dans l'inventaire
+# - Supprimer un objet de l'inventaire
+# - Equiper une arme
+# - Déséquiper une arme
+# - Equiper une armure
+# - Déséquiper une armure
+# - Equiper un bijou
+# - Déséquiper un bijou
 
-attributes_gloglo = AttributeSet(0, 0, 0, 0, 10, 0)
-competences_gloglo = CompetenceSet(2, 2, 2)
-attributes_toto = AttributeSet(5, 5, 5, 5, 5, 5)
-competences_toto = CompetenceSet(1, 1, 1)
-
-potion = Potion(1, 'potion', 10, 100,
-                [Effect(1, '', 'furtivity', 10, 0),
-                 Effect(2, '', 'stealing', 5, 0)])
-
-gloglo = Character(1, 'Glorwynn', 'humain', 20, attributes_gloglo,
-                   competences_gloglo,
+gloglo = Character(1, 'Glorwynn', 'humain', 20,
+                   AttributeSet(0, 0, 0, 0, 10, 0),
+                   CompetenceSet(2, 2, 2),
                    10, 10, 5, 10,
-                   {"head": None},
-                   {potion},
                    {'Toto': 3})
 
-toto = Character(2, 'Toto', 'humain', 20, attributes_toto,
-                 competences_toto,
-                 5, 5, 0, 10,
-                 {"head": None},
-                 {},
-                 {'Glowynn': 3})
+toto = Character(1, 'Toto', 'humain', 20,
+                 AttributeSet(0, 0, 0, 0, 10, 0),
+                 CompetenceSet(2, 2, 2),
+                 10, 10, 5, 10,
+                 {'Toto': 3})
 
-titi = Character(3, 'Titi', 'humain', 20, attributes_toto,
-                 competences_toto,
-                 5, 5, 0, 10,
-                 {"head": None},
-                 {},
-                 {'Glowynn': 3})
+team = gloglo.createTeam("Team", '')
+print(isinstance(team.chief, TeamChief))
 
-quest = StealQuest('mission1', 'cible', 10, 20, 0, 0, 'objet')
-quest2 = StealQuest('mission1', 'cible', 10, 20, 0, 0, 'objet')
-w = Weapon('arme', 0, 0, [], 0, 11, 10, 'onehand')
-a = Armor('Casque', 0, 0, [], 0, 11, 10, 'head')
-gloglo.bagpack.addItem(w)
+w1 = Weapon('arme', 0, 0, [], 0, 11, 'onehand')
+w2 = Weapon('arme2', 0, 0, [], 0, 11, 'onehand')
+a1 = Armor('Casque', 0, 0, [], 0, 11, 'head')
+a2 = Armor('Jambes', 0, 0, [], 0, 11, 'legs')
+j1 = Jewelry('Doigt', 0, 0, [], 0, 'ring')
+j2 = Jewelry('Cou', 0, 0, [], 0, 'necklace')
+q1 = StealQuest('Quete1', toto, 10, 0, 'loc', 0, w2)
 
+toto.questRequest(q1, team)
+print(team.waiting_Quest[0].title)
+team.chief.acceptQuestRequest(q1, team)
+print(team.doingQuest(q1))
 
-# print(gloglo.competences.furtivity, gloglo.competences.stealing)
-# potion.actEffect(gloglo)
-# print(gloglo.competences.furtivity, gloglo.competences.stealing)
+gloglo.takeItem(w1, 4)
+gloglo.takeItem(w2, 4)
+gloglo.takeItem(a1, 3)
+gloglo.takeItem(a2, 3)
+gloglo.takeItem(j1, 2)
+gloglo.takeItem(j2, 2)
+
+print(gloglo.attributes.rage)
