@@ -26,16 +26,23 @@ from Quest import *
 # - Equiper un bijou + application de l'enchantement
 # - Déséquiper un bijou + suppression de l'enchantement
 
-humain = Race('humain',
+humain = Race('Humain',
               AttributeSet(20, 10, 0, 0, 0, 0, 10, 0),
               CompetenceSet(2, 2, 2),
-              {'Humain': 10})
+              {'Humain': 10, 'Centaures': -10})
+
+centaures = Race('Centaures',
+                 AttributeSet(20, 10, 0, 0, 0, 0, 10, 0),
+                 CompetenceSet(2, 2, 2),
+                 {'Humain': -10, 'Centaures': 10})
 
 gloglo = Character(1, 'Glorwynn', humain,
                    10, 10, 5, 10, {})
 
 toto = Character(1, 'Toto', humain,
                  10, 10, 5, 10, {})
+
+l1 = Location('Ville', 'ville', centaures, 10, 5)
 
 e1 = Effect('1', 'HP+', "HP", 10, 0)
 e2 = Effect('2', 'rage+', "rage", 5, 0)
@@ -47,4 +54,4 @@ j1 = Jewelry('Doigt', 0, 0, [e1], 0, 'ring')
 j2 = Jewelry('Cou', 0, 0, [], 0, 'necklace')
 q1 = StealQuest('Quete1', toto, 10, 0, 'loc', 0, w2)
 
-print(help(Character))
+print(gloglo.getLocationStress(l1))

@@ -4,6 +4,7 @@ from Organisation import *
 from Equipment import *
 from Race import *
 from Quest import *
+from Location import *
 
 
 class Character:
@@ -84,6 +85,11 @@ class Character:
         - output : Integer
         """
         return(self.getObedience(character) + (self.greed_lvl - 5))
+
+    def getLocationStress(self, location):
+        return((self.RACE_RELATIONS[location.people.name] +
+                self.getInfluence()) *
+               (location.population / location.size))
 
     ###########################
     # Fonctions pour les objets
