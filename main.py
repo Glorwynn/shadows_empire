@@ -20,11 +20,12 @@ from Quest import *
 # - Ajouter un objet dans l'inventaire
 # - Supprimer un objet de l'inventaire
 # - Equiper une arme + application de l'enchantement
-# - Déséquiper une arme + suppression de l'enchantement
+# - Desequiper une arme + suppression de l'enchantement
 # - Equiper une armure + application de l'enchantement
-# - Déséquiper une armure + suppression de l'enchantement
+# - Desequiper une armure + suppression de l'enchantement
 # - Equiper un bijou + application de l'enchantement
-# - Déséquiper un bijou + suppression de l'enchantement
+# - Desequiper un bijou + suppression de l'enchantement
+# - Se déplacer jusqu'à un autre lieu
 
 humain = Race('Humain',
               AttributeSet(20, 10, 0, 0, 0, 0, 10, 0),
@@ -36,13 +37,14 @@ centaures = Race('Centaures',
                  CompetenceSet(2, 2, 2),
                  {'Humain': -10, 'Centaures': 10})
 
+l1 = Location('Quartier Commercant', 'ville', centaures, 10, 5)
+l2 = Location('Centre de la ville', 'ville', centaures, 10, 5)
+
 gloglo = Character(1, 'Glorwynn', humain,
-                   10, 10, 5, 10, {})
+                   10, 10, 5, 10, {}, l1)
 
 toto = Character(1, 'Toto', humain,
-                 10, 10, 5, 10, {})
-
-l1 = Location('Ville', 'ville', centaures, 10, 5)
+                 10, 10, 5, 10, {}, l1)
 
 e1 = Effect('1', 'HP+', "HP", 10, 0)
 e2 = Effect('2', 'rage+', "rage", 5, 0)
@@ -54,4 +56,6 @@ j1 = Jewelry('Doigt', 0, 0, [e1], 0, 'ring')
 j2 = Jewelry('Cou', 0, 0, [], 0, 'necklace')
 q1 = StealQuest('Quete1', toto, 10, 0, 'loc', 0, w2)
 
-print(gloglo.getLocationStress(l1))
+print(gloglo.location.name)
+gloglo.goToLocaction(l2)
+print(gloglo.location.name)

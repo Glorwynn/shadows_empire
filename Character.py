@@ -30,7 +30,7 @@ class Character:
     """
 
     def __init__(self, idChar, name, race, mystery, blood_thirst,
-                 greed_lvl, gold, relations):
+                 greed_lvl, gold, relations, location):
         self.idChar = idChar                            # Integer
         self.name = name                                # String
         self.race = race                                # String
@@ -44,7 +44,7 @@ class Character:
         self.bagpack = BagPack()                        # BagPack
         self.relations = relations                      # Dictionnary
         self.RACE_RELATIONS = race.relations            # Dictionnary
-        self.location = 'Sommet du graphe de carte'     # String (by now)
+        self.location = location                        # String (by now)
 
     #############################################
     # Definitions des relations entre personnages
@@ -86,10 +86,15 @@ class Character:
         """
         return(self.getObedience(character) + (self.greed_lvl - 5))
 
-    def getLocationStress(self, location):
-        return((self.RACE_RELATIONS[location.people.name] +
-                self.getInfluence()) *
-               (location.population / location.size))
+    def getStress(self):
+        return(self.RACE_RELATIONS[self.location.people.name]/2)
+
+    ##########################
+    # Fonctions de deplacement
+    ##########################
+
+    def goToLocaction(self, location):
+        self.location = location
 
     ###########################
     # Fonctions pour les objets
