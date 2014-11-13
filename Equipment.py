@@ -39,6 +39,7 @@ class Equipment:
         self.left2 = None
         self.neck = None
         self.wrist = None
+        self.bonmalus = 0
 
     def addWeapon(self, item, hand="right_hand"):
         """

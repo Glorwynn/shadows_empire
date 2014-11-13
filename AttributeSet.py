@@ -1,4 +1,5 @@
 class AttributeSet:
+
     """
     Class of attribut set of Characters
     Parameters :
@@ -9,8 +10,11 @@ class AttributeSet:
         - attractivity (Integer [0,10])
         - rage (Integer [0,10])
     """
-    def __init__(self, constitution, agility, esprit, sensitivity,
-                 attractivity, rage):
+
+    def __init__(self, health_points, mana_points, constitution,
+                 agility, esprit, sensitivity, attractivity, rage):
+        self.health_points = health_points
+        self.mana_points = mana_points
         self.constitution = constitution
         self.agility = agility
         self.esprit = esprit
@@ -19,7 +23,9 @@ class AttributeSet:
         self.rage = rage
 
     def __repr__(self):
-        return("Constitution: {}\n".format(self.constitution) +
+        return("PV: {}\n".format(self.health_points) +
+               "PM: {}\n".format(self.mana_points) +
+               "Constitution: {}\n".format(self.constitution) +
                "Agility: {}\n".format(self.agility) +
                "Esprit: {}\n".format(self.esprit) +
                "Sensitivity: {}\n".format(self.sensitivity) +

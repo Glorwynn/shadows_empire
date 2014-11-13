@@ -26,17 +26,16 @@ from Quest import *
 # - Equiper un bijou + application de l'enchantement
 # - Déséquiper un bijou + suppression de l'enchantement
 
-gloglo = Character(1, 'Glorwynn', 'humain', 20,
-                   AttributeSet(0, 0, 0, 0, 10, 0),
-                   CompetenceSet(2, 2, 2),
-                   10, 10, 5, 10,
-                   {'Toto': 3})
+humain = Race('humain',
+              AttributeSet(20, 10, 0, 0, 0, 0, 10, 0),
+              CompetenceSet(2, 2, 2),
+              {'Humain': 10})
 
-toto = Character(1, 'Toto', 'humain', 20,
-                 AttributeSet(0, 0, 0, 0, 10, 0),
-                 CompetenceSet(2, 2, 2),
-                 10, 10, 5, 10,
-                 {'Toto': 3})
+gloglo = Character(1, 'Glorwynn', humain,
+                   10, 10, 5, 10, {})
+
+toto = Character(1, 'Toto', humain,
+                 10, 10, 5, 10, {})
 
 e1 = Effect('1', 'HP+', "HP", 10, 0)
 e2 = Effect('2', 'rage+', "rage", 5, 0)
@@ -48,12 +47,4 @@ j1 = Jewelry('Doigt', 0, 0, [e1], 0, 'ring')
 j2 = Jewelry('Cou', 0, 0, [], 0, 'necklace')
 q1 = StealQuest('Quete1', toto, 10, 0, 'loc', 0, w2)
 
-print(gloglo.HP, gloglo.attributes.rage)
-gloglo.takeItem(j1, 4)
-gloglo.equipJewelry(j1, "left2")
-
-print(gloglo.equipment.left2)
-print(gloglo.HP, gloglo.attributes.rage)
-gloglo.unequipJewelry("left2")
-print(gloglo.HP, gloglo.attributes.rage)
-print(gloglo.equipment.left2)
+print(help(Character))

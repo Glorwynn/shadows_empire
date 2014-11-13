@@ -1,5 +1,6 @@
 class Location:
-	
-	def __init__(name, gold_value):
-		self.name = name
-		self.gold_value = gold_value
+
+    def __init__(self, name, envType, people):
+        self.name = name
+        self.envType = envType
+        self.people = people

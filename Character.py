@@ -2,6 +2,8 @@ from AttributeSet import *
 from CompetenceSet import *
 from Organisation import *
 from Equipment import *
+from Race import *
+from Quest import *
 
 
 class Character:
@@ -12,28 +14,27 @@ class Character:
         - id (Integer)
         - name (String)
         - race (String)
-        - Health points (Integer)
-        - attributes set (Instance of AttributeSet)
-        - competences set (Instance of CompetenceSet)
+        - attributes set (Instance of AttributeSet - copy from race)
+        - competences set (Instance of CompetenceSet - copy from race)
         - mystery Value (Integer [0,10])
         - blood thirst Value (Integer [0,10])
         - level of greed (Integer [0,10])
         - gold (Integer)
-        - equiped weapon / jewelry (Dictionnary of Objects= Location: Object)
+        - equipment (Dictionnary of Objects= Location: Object)
         - other objets (List of Objects= Object: number)
+        - Bonus (Dictionnary of Integer)
         - relations (Dictionnary of Integer)
-        - RACE_RELATIONS (Dictionnary of Integer)
+        - RACE_RELATIONS (Dictionnary of Integer - copy from race)
         - Location (Instance of Location)
     """
 
-    def __init__(self, idChar, name, race, HP, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, gold, relations):
+    def __init__(self, idChar, name, race, mystery, blood_thirst,
+                 greed_lvl, gold, relations):
         self.idChar = idChar                            # Integer
         self.name = name                                # String
         self.race = race                                # String
-        self.HP = HP                                    # Integer
-        self.attributes = attributes                    # AttributeSet
-        self.competences = competences                  # CompetenceSet
+        self.attributes = race.attribute_set            # AttributeSet
+        self.competences = race.competence_set          # CompetenceSet
         self.mystery = mystery                          # Integer [0,10]
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
@@ -41,23 +42,8 @@ class Character:
         self.equipment = Equipment()                    # Equipment
         self.bagpack = BagPack()                        # BagPack
         self.relations = relations                      # Dictionnary
-        self.RACE_RELATIONS = self.raceRelations()      # Dictionnary
+        self.RACE_RELATIONS = race.relations            # Dictionnary
         self.location = 'Sommet du graphe de carte'     # String (by now)
-
-    def screen(self):
-        """
-        Print readable informations.
-        - output : String
-        """
-        return("Je m'appelle {}".format(self.name))
-
-    def raceRelations(self):
-        """
-        Create RACE_RELATIONS.
-        - output : RACE_RELATIONS
-        """
-        if self.race == 'humain':
-            return({'humain': -5})
 
     #############################################
     # Definitions des relations entre personnages
@@ -105,22 +91,24 @@ class Character:
 
     def takeItem(self, item, number=1):
         """
-        Add an Item in BagPack
-        output: None
+        Add an item in BagPack
+        - output: None
         """
         self.bagpack.addItem(item, number)
 
     def putItem(self, item, number=1):
         """
-        Remove an Item from bagpack
-        output: None
+        Remove an item from bagpack
+        - output: None
         """
         self.bagpack.removeItem(item, number)
 
     def equipWeapon(self, weapon, hand="right_hand"):
         """
-        Add an Weapon in equipment and remove Weapon from BagPack
-        output: None
+        Equip a weapon. Add the weapon in the equipment, remove it from
+        the bagpack (if it possible) and apply the effects of it
+        on the character.
+        - output: None
         """
         if weapon in self.bagpack.weapons:
             self.equipment.addWeapon(weapon, hand)
@@ -131,8 +119,10 @@ class Character:
 
     def unequipWeapon(self, hand="all"):
         """
-        remove an Weapon from equipment dans add Weapon in Bagpack
-        output: None
+        Unequip a weapon. Remove the weapon from the equipment
+        (if it possible), add it in the bagpack and disapply the effects
+        of it on the character.
+        - output: None
         """
         weapons = {'right_hand': self.equipment.right_hand,
                    'left_hand': self.equipment.left_hand}
@@ -146,7 +136,6 @@ class Character:
                 self.takeItem(weapons[hand])
                 weapons[hand].unequipEffect(self)
                 self.equipment.removeWeapon(hand)
-                print(weapons[hand].name)
             except KeyError:
                 print("Emplacement invalide")
             except AttributeError:
@@ -154,8 +143,10 @@ class Character:
 
     def equipArmor(self, armor):
         """
-        Add armor in equipment and remove armor from bagpack
-        output: None
+        Equip an armor. Add the armor in the equipment, remove it from
+        the bagpack (if it possible) and apply the effects of it
+        on the character.
+        - output: None
         """
         if armor in self.bagpack.armors:
             self.equipment.addArmor(armor)
@@ -166,8 +157,10 @@ class Character:
 
     def unequipArmor(self, location="all"):
         """
-        Remove armor from Equipment and add armor in bagpack
-        output: None
+        Unequip an armor. Remove the armor from the equipment
+        (if it possible), add it in the bagpack and disapply the effects
+        of it on the character.
+        - output: None
         """
         armors = {"head": self.equipment.head,
                   "shoulders": self.equipment.shoulders,
@@ -192,8 +185,10 @@ class Character:
 
     def equipJewelry(self, jewelry, finger='right1'):
         """
-        Add jewelry in equipment and remove jewelry from bagpack
-        output: None
+        Equip a jewelry. Add the jewelry in the equipment, remove it from
+        the bagpack (if it possible) and apply the effects of it
+        on the character.
+        - output: None
         """
         if jewelry in self.bagpack.jewelries:
             self.equipment.addJewelry(jewelry, finger)
@@ -204,8 +199,10 @@ class Character:
 
     def unequipJewelry(self, location="all"):
         """
-        Remove armor from Equipment and add armor in bagpack
-        output: None
+        Unequip a jewelry. Remove the jewelry from the equipment
+        (if it possible), add it in the bagpack and disapply the effects
+        of it on the character.
+        - output: None
         """
         jewelries = {"right1": self.equipment.right1,
                      "right2": self.equipment.right2,
@@ -261,7 +258,7 @@ class Character:
 class TeamChief(Character):
 
     """
-    A class for Characters.
+    A class for TeamChief.
     Parameters :
         - id (Integer)
         - name (String)

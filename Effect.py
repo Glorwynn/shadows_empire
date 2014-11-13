@@ -19,7 +19,9 @@ class Effect:
         elif self.variable == 'lockpicking':
             character.competences.lockpicking += self.value
         elif self.variable == 'HP':
-            character.HP += self.value
+            character.attributes.health_points += self.value
+        elif self.variable == 'MP':
+            character.attributes.mana_points += self.value
         elif self.variable == 'constitution':
             character.attributes.constitution += self.value
         elif self.variable == 'agility':
@@ -43,7 +45,9 @@ class Effect:
         elif self.variable == 'lockpicking':
             character.competences.lockpicking -= self.value
         elif self.variable == 'HP':
-            character.HP -= self.value
+            character.attributes.health_points -= self.value
+        elif self.variable == 'MP':
+            character.attributes.mana_points -= self.value
         elif self.variable == 'constitution':
             character.attributes.constitution -= self.value
         elif self.variable == 'agility':
