@@ -36,20 +36,20 @@ class EquipmentItem(Item):
         self.enchantments = enchantments
         self.required_Level = required_Level
 
-    def equipEffect(character):
+    def equipEffect(self, character):
         """
         Apply enchantments on the character
         - output: None
         """
-        for effect in enchantments:
+        for effect in self.enchantments:
             effect.apply(character)
 
-    def unequipEffect(character):
+    def unequipEffect(self, character):
         """
         Disapply enchantments on the character
         - output: None
         """
-        for effect in enchantments:
+        for effect in self.enchantments:
             effect.disapply(character)
 
 

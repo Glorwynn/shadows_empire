@@ -40,7 +40,7 @@ class Equipment:
         self.neck = None
         self.wrist = None
 
-    def addWeapon(self, item, hand="right"):
+    def addWeapon(self, item, hand="right_hand"):
         """
         Add a Weapon in equipement
         - output: None
@@ -49,11 +49,10 @@ class Equipment:
             if item.wType in ['twohands', 'bow']:
                 self.right_hand = item
                 self.left_hand = item
-                # Ne pas oublier les effet de l'enchantement
             elif item.wType in ['onehand', 'dagger', 'stick']:
-                if hand == 'right':
+                if hand == 'right_hand':
                     self.right_hand = item
-                elif hand == 'left':
+                elif hand == 'left_hand':
                     self.left_hand = item
                 else:
                     print("{} n'est pas une position d'arme valide"
@@ -63,20 +62,27 @@ class Equipment:
         except AttributeError:
             print("Cet objet n'est pas une arme")
 
-    def removeWeapon(self, hand="all"):
+    def removeWeapon(self, hand="right_hand"):
         """
         Remove a weapon from a hand
         - output: None
         """
-        if hand == "right":
-            self.right_hand = None
-        elif hand == "left":
-            self.left_hand = None
-        elif hand == "all":
+        if(not(self.right_hand is None) and
+           self.right_hand.wType in ['twohands', 'bow']):
             self.right_hand = None
             self.left_hand = None
         else:
-            print("L'emplacement n'est pas valide")
+            if hand == "right_hand":
+                if(not(self.right_hand is None) and
+                   self.right_hand.wType in ['twohands', 'bow']):
+                    self.left_hand = None
+                self.right_hand = None
+            elif hand == "left_hand":
+                if self.left_hand.wType in ['twohands', 'bow']:
+                    self.right_hand = None
+                self.left_hand = None
+            else:
+                print("L'emplacement n'est pas valide")
 
     def addArmor(self, item):
         """
@@ -113,13 +119,6 @@ class Equipment:
         elif location == "legs":
             self.legs = None
         elif location == "feet":
-            self.feet = None
-        elif location == "all":
-            self.head = None
-            self.shoulders = None
-            self.arms = None
-            self.trunk = None
-            self.legs = None
             self.feet = None
         else:
             print("L'emplacement est invalide")
@@ -166,13 +165,6 @@ class Equipment:
         elif location == "neck":
             self.neck = None
         elif location == "wrist":
-            self.wrist = None
-        elif location == "all":
-            self.right1 = None
-            self.right2 = None
-            self.left1 = None
-            self.left2 = None
-            self.neck = None
             self.wrist = None
         else:
             print("Cet emplacement n'est pas valide")

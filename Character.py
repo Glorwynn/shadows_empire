@@ -117,7 +117,7 @@ class Character:
         """
         self.bagpack.removeItem(item, number)
 
-    def equipWeapon(self, weapon, hand="right"):
+    def equipWeapon(self, weapon, hand="right_hand"):
         """
         Add an Weapon in equipment and remove Weapon from BagPack
         output: None
@@ -125,6 +125,7 @@ class Character:
         if weapon in self.bagpack.weapons:
             self.equipment.addWeapon(weapon, hand)
             self.putItem(weapon)
+            weapon.equipEffect(self)
         else:
             print("Vous ne possedez pas cet objet")
 
@@ -133,19 +134,23 @@ class Character:
         remove an Weapon from equipment dans add Weapon in Bagpack
         output: None
         """
-        if hand == 'right':
-            if not(self.equipment.right_hand is None):
-                self.takeItem(self.equipment.right_hand)
-            else:
-                print("Vous n'avez pas d'arme a cet emplacement")
-        elif hand == 'left':
-            if not(self.equipment.left_hand is None):
-                self.takeItem(self.equipment.left_hand)
-            print("Vous n'avez rien a cet emplacement")
+        weapons = {'right_hand': self.equipment.right_hand,
+                   'left_hand': self.equipment.left_hand}
+        if hand == 'all':
+            for w in weapons:
+                self.takeItem(weapons[w])
+                weapons[w].unequipEffect(self)
+                self.equipment.removeArmor(w)
         else:
-            self.takeItem(self.equipment.left_hand)
-            self.takeItem(self.equipment.right_hand)
-        self.equipment.removeWeapon(hand)
+            try:
+                self.takeItem(weapons[hand])
+                weapons[hand].unequipEffect(self)
+                self.equipment.removeWeapon(hand)
+                print(weapons[hand].name)
+            except KeyError:
+                print("Emplacement invalide")
+            except AttributeError:
+                print("Il n'y a rien a cet emplacement")
 
     def equipArmor(self, armor):
         """
@@ -155,6 +160,7 @@ class Character:
         if armor in self.bagpack.armors:
             self.equipment.addArmor(armor)
             self.putItem(armor)
+            armor.equipEffect(self)
         else:
             print("Vous ne possedez pas cet objet")
 
@@ -163,48 +169,36 @@ class Character:
         Remove armor from Equipment and add armor in bagpack
         output: None
         """
-        if location == 'head':
-            if not(self.equipment.head is None):
-                self.takeItem(self.equipment.head)
-            else:
-                print("Vous n'avez pas d'arme a cet emplacement")
-        elif location == 'shoulders':
-            if not(self.equipment.shoulders is None):
-                self.takeItem(self.equipment.shoulders)
-            else:
-                print("Vous n'avez pas d'arme a cet emplacement")
-        elif location == 'arms':
-            if not(self.equipment.arms is None):
-                self.takeItem(self.equipment.arms)
-            else:
-                print("Vous n'avez pas d'arme a cet emplacement")
-        elif location == 'trunk':
-            if not(self.equipment.trunk is None):
-                self.takeItem(self.equipment.trunk)
-            print("Vous n'avez rien a cet emplacement")
-        elif location == 'legs':
-            if not(self.equipment.legs is None):
-                self.takeItem(self.equipment.legs)
-            else:
-                print("Vous n'avez pas d'arme a cet emplacement")
-        elif location == 'feet':
-            if not(self.equipment.feet is None):
-                self.takeItem(self.equipment.feet)
-            else:
-                print("Vous n'avez pas d'arme a cet emplacement")
+        armors = {"head": self.equipment.head,
+                  "shoulders": self.equipment.shoulders,
+                  "arms": self.equipment.arms,
+                  "trunk": self.equipment.trunk,
+                  "legs": self.equipment.legs,
+                  "feet": self.equipment.feet}
+        if location == 'all':
+            for armor in armors:
+                self.takeItem(armors[armor])
+                armors[armor].unequipEffect(self)
+                self.equipment.removeArmor(armor)
         else:
-            self.takeItem(self.equipment.head)
-            self.takeItem(self.equipment.trunk)
-        self.equipment.removeArmor(location)
+            try:
+                self.takeItem(armors[location])
+                armors[location].unequipEffect(self)
+                self.equipment.removeArmor(location)
+            except KeyError:
+                print("Emplacement invalide")
+            except AttributeError:
+                print("Il n'y a rien a cet emplacement")
 
-    def equipJewelry(self, jewelry):
+    def equipJewelry(self, jewelry, finger='right1'):
         """
         Add jewelry in equipment and remove jewelry from bagpack
         output: None
         """
         if jewelry in self.bagpack.jewelries:
-            self.equipment.addJewelry(jewelry)
+            self.equipment.addJewelry(jewelry, finger)
             self.putItem(jewelry)
+            jewelry.equipEffect(self)
         else:
             print("Vous ne possedez pas cet objet")
 
@@ -213,39 +207,26 @@ class Character:
         Remove armor from Equipment and add armor in bagpack
         output: None
         """
-        if location == 'right1':
-            if not(self.equipment.right1 is None):
-                self.takeItem(self.equipment.right1)
-            else:
-                print("Vous n'avez pas de bijoux a cet emplacement")
-        elif location == 'right2':
-            if not(self.equipment.right2 is None):
-                self.takeItem(self.equipment.right2)
-            else:
-                print("Vous n'avez pas de bijoux a cet emplacement")
-        elif location == 'left1':
-            if not(self.equipment.left1 is None):
-                self.takeItem(self.equipment.left1)
-            else:
-                print("Vous n'avez pas de bijoux a cet emplacement")
-        elif location == 'left2':
-            if not(self.equipment.left2 is None):
-                self.takeItem(self.equipment.left2)
-            print("Vous n'avez rien a cet emplacement")
-        elif location == 'neck':
-            if not(self.equipment.neck is None):
-                self.takeItem(self.equipment.neck)
-            else:
-                print("Vous n'avez pas de bijoux a cet emplacement")
-        elif location == 'wrist':
-            if not(self.equipment.wrist is None):
-                self.takeItem(self.equipment.wrist)
-            else:
-                print("Vous n'avez pas de bijoux a cet emplacement")
+        jewelries = {"right1": self.equipment.right1,
+                     "right2": self.equipment.right2,
+                     "left1": self.equipment.left1,
+                     "left2": self.equipment.left2,
+                     "neck": self.equipment.neck,
+                     "wrist": self.equipment.wrist}
+        if location == 'all':
+            for j in jewelries:
+                self.takeItem(jewelries[j])
+                jewelries[j].unequipEffect(self)
+                self.equipment.removeJewelry(j)
         else:
-            self.takeItem(self.equipment.head)
-            self.takeItem(self.equipment.trunk)
-        self.equipment.removeJewelry(location)
+            try:
+                self.takeItem(jewelries[location])
+                jewelries[location].unequipEffect(self)
+                self.equipment.removeJewelry(location)
+            except KeyError:
+                print("Emplacement invalide")
+            except AttributeError:
+                print("Il n'y a rien a cet emplacement")
 
     #####################
     # Fonctions de quetes

@@ -19,12 +19,12 @@ from Quest import *
 # - effectuer une quete
 # - Ajouter un objet dans l'inventaire
 # - Supprimer un objet de l'inventaire
-# - Equiper une arme
-# - Déséquiper une arme
-# - Equiper une armure
-# - Déséquiper une armure
-# - Equiper un bijou
-# - Déséquiper un bijou
+# - Equiper une arme + application de l'enchantement
+# - Déséquiper une arme + suppression de l'enchantement
+# - Equiper une armure + application de l'enchantement
+# - Déséquiper une armure + suppression de l'enchantement
+# - Equiper un bijou + application de l'enchantement
+# - Déséquiper un bijou + suppression de l'enchantement
 
 gloglo = Character(1, 'Glorwynn', 'humain', 20,
                    AttributeSet(0, 0, 0, 0, 10, 0),
@@ -38,27 +38,22 @@ toto = Character(1, 'Toto', 'humain', 20,
                  10, 10, 5, 10,
                  {'Toto': 3})
 
-team = gloglo.createTeam("Team", '')
-print(isinstance(team.chief, TeamChief))
-
-w1 = Weapon('arme', 0, 0, [], 0, 11, 'onehand')
-w2 = Weapon('arme2', 0, 0, [], 0, 11, 'onehand')
-a1 = Armor('Casque', 0, 0, [], 0, 11, 'head')
-a2 = Armor('Jambes', 0, 0, [], 0, 11, 'legs')
-j1 = Jewelry('Doigt', 0, 0, [], 0, 'ring')
+e1 = Effect('1', 'HP+', "HP", 10, 0)
+e2 = Effect('2', 'rage+', "rage", 5, 0)
+w1 = Weapon('arme1', 0, 0, [e1, e2], 0, 11, 'onehand')
+w2 = Weapon('arme2', 0, 0, [e1], 0, 11, 'onehand')
+a1 = Armor('Casque', 0, 0, [e1], 0, 11, 'head')
+a2 = Armor('Jambes', 0, 0, [e2], 0, 11, 'legs')
+j1 = Jewelry('Doigt', 0, 0, [e1], 0, 'ring')
 j2 = Jewelry('Cou', 0, 0, [], 0, 'necklace')
 q1 = StealQuest('Quete1', toto, 10, 0, 'loc', 0, w2)
 
-toto.questRequest(q1, team)
-print(team.waiting_Quest[0].title)
-team.chief.acceptQuestRequest(q1, team)
-print(team.doingQuest(q1))
+print(gloglo.HP, gloglo.attributes.rage)
+gloglo.takeItem(j1, 4)
+gloglo.equipJewelry(j1, "left2")
 
-gloglo.takeItem(w1, 4)
-gloglo.takeItem(w2, 4)
-gloglo.takeItem(a1, 3)
-gloglo.takeItem(a2, 3)
-gloglo.takeItem(j1, 2)
-gloglo.takeItem(j2, 2)
-
-print(gloglo.attributes.rage)
+print(gloglo.equipment.left2)
+print(gloglo.HP, gloglo.attributes.rage)
+gloglo.unequipJewelry("left2")
+print(gloglo.HP, gloglo.attributes.rage)
+print(gloglo.equipment.left2)
