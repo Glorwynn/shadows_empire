@@ -190,7 +190,13 @@ class BagPack:
         self.jewelries = {}
         self.useless_Items = {}
 
-    def addItem(self, item, number):
+    def inBagpack(self, item, number=1):
+        return ((item in self.weapons and self.weapons[item] >= number) or
+                (item in self.armors and self.armors[item] >= number) or
+                (item in self.jewelries and self.jewelries[item] >= number) or
+                (item in self.potions and self.potions[item] >= number))
+
+    def addItem(self, item, number=1):
         """
         Add an Item in BagPack
         - output: None
@@ -221,7 +227,7 @@ class BagPack:
             else:
                 self.useless_Items[item] = number
 
-    def removeItem(self, item, number):
+    def removeItem(self, item, number=1):
         """
         Remove an Item from BagPack
         - output: None

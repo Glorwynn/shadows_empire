@@ -5,6 +5,7 @@ from Equipment import *
 from Race import *
 from Quest import *
 from Location import *
+from Building import *
 
 
 class Character:
@@ -40,6 +41,7 @@ class Character:
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.gold = gold                                # Integer
+        self.properties = []                            # List of Building
         self.equipment = Equipment()                    # Equipment
         self.bagpack = BagPack()                        # BagPack
         self.relations = relations                      # Dictionnary
