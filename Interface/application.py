@@ -29,7 +29,7 @@ class MainWindow(Tk):
 
     def newGame(self):
         NewHeroScreen(self)
-        MainScreen(self)
+        #MainScreen(self)
 
     def loadGame(self):
         pass

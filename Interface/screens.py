@@ -67,3 +67,7 @@ class NewHeroScreen(Toplevel):
 
     def getInfos(self):
         return(self.hero_name)
+
+
+class MainScreen(Frame):
+    pass
