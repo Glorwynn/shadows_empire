@@ -2,6 +2,16 @@ from Character import *
 
 
 class Effect:
+    """
+        Class for effects and enchantments
+        ==================================
+        Attributes:
+        -----------
+            - idEffect: Integer
+            - name: String
+            - variable: String
+            - value: Integer
+    """
 
     def __init__(self, idEffect, name, variable, value, delay):
         # Peut etre ajouter les elements
@@ -9,9 +19,14 @@ class Effect:
         self.name = name
         self.variable = variable
         self.value = value
-        self.delay = delay
 
     def apply(self, character):
+        """
+            Apply the effect on the character
+            ---------------------------------
+
+            OUTPUT: None
+        """
         if self.variable == 'furtivity':
             character.competences.furtivity += self.value
         elif self.variable == 'stealing':
@@ -38,6 +53,12 @@ class Effect:
             character.mystery += self.value
 
     def disapply(self, character):
+        """
+            Disapply the effect on the character
+            ------------------------------------
+
+            OUTPUT: None
+        """
         if self.variable == 'furtivity':
             character.competences.furtivity -= self.value
         elif self.variable == 'stealing':

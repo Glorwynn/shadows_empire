@@ -11,23 +11,26 @@ from Building import *
 class Character:
 
     """
-    A class for Characters.
-    Parameters :
-        - id (Integer)
-        - name (String)
-        - race (String)
-        - attributes set (Instance of AttributeSet - copy from race)
-        - competences set (Instance of CompetenceSet - copy from race)
-        - mystery Value (Integer [0,10])
-        - blood thirst Value (Integer [0,10])
-        - level of greed (Integer [0,10])
-        - gold (Integer)
-        - equipment (Dictionnary of Objects= Location: Object)
-        - other objets (List of Objects= Object: number)
-        - Bonus (Dictionnary of Integer)
-        - relations (Dictionnary of Integer)
-        - RACE_RELATIONS (Dictionnary of Integer - copy from race)
-        - Location (Instance of Location)
+        A class for Characters.
+        =======================
+        Attributes :
+        ------------
+            - id: Integer
+            - name: String
+            - race: String
+            - attributes set: Instance of AttributeSet - copy from race
+            - competences set: Instance of CompetenceSet - copy from race
+            - mystery Value: Integer [0,10]
+            - blood thirst Value: Integer [0,10]
+            - level of greed: Integer [0,10]
+            - gold: Integer
+            - estate: List of buildings
+            - equipment: Dictionnary of Item {Location: Item}
+            - other objets: List of Item {Item: number}
+            - Bonus: Dictionnary of Integer
+            - relations: Dictionnary of Integer
+            - RACE_RELATIONS: Dictionnary of Integer - copy from race
+            - Location: Instance of Location
     """
 
     def __init__(self, idChar, name, race, mystery, blood_thirst,
@@ -41,7 +44,7 @@ class Character:
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.gold = gold                                # Integer
-        self.properties = []                            # List of Building
+        self.estate = []                            # List of Building
         self.equipment = Equipment()                    # Equipment
         self.bagpack = BagPack()                        # BagPack
         self.relations = relations                      # Dictionnary
@@ -54,8 +57,11 @@ class Character:
 
     def getInfluence(self):
         """
-        Compute the influence value.
-        - output : Integer
+            Compute the influence value.
+            ----------------------------
+            The formula is: ...
+
+            OUTPUT: Integer
         """
         at_blth = (self.attributes.attractivity + self.blood_thirst)/4
         if at_blth == 0:
@@ -66,8 +72,11 @@ class Character:
 
     def getObedience(self, character):
         """
-        Compute the obedience value.
-        - output : Integer
+            Compute the obedience value of a character.
+            -------------------------------------------
+            The formula is: ...
+
+            OUTPUT: Integer
         """
         influence = character.getInfluence()
         if self.RACE_RELATIONS[character.race] <= -5:
@@ -83,19 +92,35 @@ class Character:
 
     def getLoyalty(self, character):
         """
-        Compute the loyalty value.
-        - output : Integer
+            Compute the loyalty value of a character.
+            -----------------------------------------
+            The formula is: ...
+
+            OUTPUT : Integer
         """
         return(self.getObedience(character) + (self.greed_lvl - 5))
 
     def getStress(self):
+        """
+            Compute the stress value in the current location.
+            -------------------------------------------------
+            The formula is: ...
+
+            OUTPUT : Integer
+        """
         return(self.RACE_RELATIONS[self.location.people.name]/2)
 
     ##########################
     # Fonctions de deplacement
     ##########################
 
-    def goToLocaction(self, location):
+    def moveTo(self, location):
+        """
+            Move to new Location.
+            ---------------------
+
+            OUTPUT: None
+        """
         self.location = location
 
     ###########################
@@ -104,24 +129,30 @@ class Character:
 
     def takeItem(self, item, number=1):
         """
-        Add an item in BagPack
-        - output: None
+            Add an item to BagPack
+            ----------------------
+
+            OUTPUT: None
         """
         self.bagpack.addItem(item, number)
 
     def putItem(self, item, number=1):
         """
-        Remove an item from bagpack
-        - output: None
+            Remove an item from bagpack
+            ---------------------------
+
+            OUTPUT: None
         """
         self.bagpack.removeItem(item, number)
 
     def equipWeapon(self, weapon, hand="right_hand"):
         """
-        Equip a weapon. Add the weapon in the equipment, remove it from
-        the bagpack (if it possible) and apply the effects of it
-        on the character.
-        - output: None
+            Equip a weapon.
+            ---------------
+            Add a weapon from bagpack to equipment and apply enchantments
+            on the character.
+
+            OUTPUT: None
         """
         if weapon in self.bagpack.weapons:
             self.equipment.addWeapon(weapon, hand)
@@ -132,10 +163,11 @@ class Character:
 
     def unequipWeapon(self, hand="all"):
         """
-        Unequip a weapon. Remove the weapon from the equipment
-        (if it possible), add it in the bagpack and disapply the effects
-        of it on the character.
-        - output: None
+            Unequip a weapon.
+            -----------------
+            Add a weapon from equipment to bagpack and disapply enchantments.
+
+            OUTPUT: None
         """
         weapons = {'right_hand': self.equipment.right_hand,
                    'left_hand': self.equipment.left_hand}
@@ -156,10 +188,12 @@ class Character:
 
     def equipArmor(self, armor):
         """
-        Equip an armor. Add the armor in the equipment, remove it from
-        the bagpack (if it possible) and apply the effects of it
-        on the character.
-        - output: None
+            Equip an armor.
+            ---------------
+            Add an armor from bagpack to equipment and apply enchantments
+            on the character.
+
+            OUTPUT: None
         """
         if armor in self.bagpack.armors:
             self.equipment.addArmor(armor)
@@ -170,10 +204,11 @@ class Character:
 
     def unequipArmor(self, location="all"):
         """
-        Unequip an armor. Remove the armor from the equipment
-        (if it possible), add it in the bagpack and disapply the effects
-        of it on the character.
-        - output: None
+            Unequip an armor.
+            -----------------
+            Add an armor from equipment to bagpack and disapply enchantments.
+
+            OUTPUT: None
         """
         armors = {"head": self.equipment.head,
                   "shoulders": self.equipment.shoulders,
@@ -198,10 +233,12 @@ class Character:
 
     def equipJewelry(self, jewelry, finger='right1'):
         """
-        Equip a jewelry. Add the jewelry in the equipment, remove it from
-        the bagpack (if it possible) and apply the effects of it
-        on the character.
-        - output: None
+            Equip a jewelry.
+            ---------------
+            Add a jewelry from bagpack to equipment and apply enchantments
+            on the character.
+
+            OUTPUT: None
         """
         if jewelry in self.bagpack.jewelries:
             self.equipment.addJewelry(jewelry, finger)
@@ -212,10 +249,11 @@ class Character:
 
     def unequipJewelry(self, location="all"):
         """
-        Unequip a jewelry. Remove the jewelry from the equipment
-        (if it possible), add it in the bagpack and disapply the effects
-        of it on the character.
-        - output: None
+            Unequip a jewelry.
+            -----------------
+            Add a jewelry from equipment to bagpack and disapply enchantments.
+
+            OUTPUT: None
         """
         jewelries = {"right1": self.equipment.right1,
                      "right2": self.equipment.right2,
@@ -244,8 +282,11 @@ class Character:
 
     def questRequest(self, quest, team):
         """
-        Add a quest in waiting quest list of team.
-        - output : None
+            The character make a quest request to a team.
+            ---------------------------------------------
+            Add the quest to the list of waiting quests
+
+            OUTPUT: None
         """
         print("{} vous propose une quete a l'equipe {}"
               .format(self.name, team.name))
@@ -257,8 +298,12 @@ class Character:
 
     def createTeam(self, name, description):
         """
-        Create a new team and upgrade the player to TeamChief.
-        - output : None
+            Create a new Team
+            -----------------
+            Upgrade the character to TeamChief and create a new team
+            which the caracter is the chief
+
+            OUTPUT: None
         """
         chief = TeamChief(self.idChar, self.name, self.race, self.HP,
                           self.attributes, self.competences, self.mystery,
@@ -271,35 +316,41 @@ class Character:
 class TeamChief(Character):
 
     """
-    A class for TeamChief.
-    Parameters :
-        - id (Integer)
-        - name (String)
-        - race (String)
-        - Health points (Integer)
-        - attributes set (Instance of AttributeSet)
-        - competences set (Instance of CompetenceSet)
-        - mystery Value (Integer [0,10])
-        - blood thirst Value (Integer [0,10])
-        - level of greed (Integer [0,10])
-        - gold (Integer)
-        - equiped weapon / jewelry (Dictionnary of Objects= Location: Object)
-        - other objets (List of Objects= Object: number)
-        - relations (Dictionnary of Integer)
-        - RACE_RELATIONS (Dictionnary of Integer)
-        - Location (Instance of Location)
+        A class for TeamChief.
+        ======================
+        Attributes:
+        -----------
+            - id: Integer
+            - name: String
+            - race: String
+            - attributes set: Instance of AttributeSet - copy from race
+            - competences set: Instance of CompetenceSet - copy from race
+            - mystery Value: Integer [0,10]
+            - blood thirst Value: Integer [0,10]
+            - level of greed: Integer [0,10]
+            - gold: Integer
+            - equipment: Dictionnary of Item {Location: Item}
+            - other objets: List of Item {Item: number}
+            - Bonus: Dictionnary of Integer
+            - relations: Dictionnary of Integer
+            - RACE_RELATIONS: Dictionnary of Integer - copy from race
+            - Location: Instance of Location
     """
 
     def __init__(self, idChar, name, race, HP, attributes, competences,
-                 mystery, blood_thirst, greed_lvl, gold, relations):
+                 mystery, blood_thirst, greed_lvl, gold, relations, team):
         Character.__init__(self, idChar, name, race, HP, attributes,
                            competences, mystery, blood_thirst,
                            greed_lvl, gold, relations)
+        self.team = team
 
-    def addMember(self, character, team):
+    def addMember(self, character):
         """
-        Add a Character in the team
-        - output : None
+            Enroll a character in the chief team
+            -------------------------------------
+            Add character in the member list if there is enough places
+
+            OUTPUT: None
         """
         if self.idChar == team.chief.idChar:
             if len(team.members) < 4:
@@ -311,8 +362,11 @@ class TeamChief(Character):
 
     def delMember(self, character, team):
         """
-        Delete a Character of the team
-        - output : None
+            Fire a Character of the team
+            ----------------------------
+            Remove a character from the member list
+
+            OUTPUT: None
         """
         if self.idChar == team.chief.idChar:
             try:
@@ -326,8 +380,11 @@ class TeamChief(Character):
 
     def acceptQuestRequest(self, quest, team):
         """
-        Accept a quest (from waiting quests) and put it in quest_Queue
-        - output : None
+            Accept a quest.
+            ---------------
+            Add quest from Waiting quests to quest queue.
+
+            OUTPUT: None
         """
         try:
             team.waiting_Quest.remove(quest)
@@ -337,8 +394,11 @@ class TeamChief(Character):
 
     def refuseQuestRequest(self, quest, team):
         """
-        Reject a quest (from waiting quests)
-        - output : None
+            Reject a quest.
+            ---------------
+            Remove the quest from waiting quests.
+
+            OUTPUT: None
         """
         try:
             team.waiting_Quest.remove(quest)

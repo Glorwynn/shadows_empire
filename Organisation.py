@@ -4,12 +4,14 @@ from random import *
 class Organisation:
 
     """
-    Class for Organisation
-    Parameters :
-        - name (String)
-        - chief (Character)
-        - members (List of Character)
-        - description (String)
+        Class for Organisation
+        ======================
+        Parameters :
+        ------------
+            - name: String
+            - chief: Character
+            - members: List of Character
+            - description: String
     """
 
     def __init__(self, name, chief, members, influence, description):
@@ -20,8 +22,11 @@ class Organisation:
 
     def getInfluence(self):
         """
-        Compute the influence value of the Organisation
-        - output : integer
+            Compute the influence value of the Organisation
+            -----------------------------------------------
+            The formula is: ...
+
+            OUTPUT: Integer
         """
         sum_Influence = 0
         for char in self.members:
@@ -35,13 +40,14 @@ class Team:
     """
     Class for Team.
     Parameters :
-        - name (String)
-        - chief (Character)
-        - members (List of Character)
-        - waiting_Quest (List of Quest)
-        - quest_Queue (List of Quest)
-        - satifaction (Integer)
-        - description (String)
+        - name: String
+        - chief: Character
+        - members: List of Character
+        - waiting_Quest: List of Quest
+        - quest_Queue: List of Quest
+        - satifaction: Integer
+        - description: String
+        - maxMembers: Integer
     """
 
     def __init__(self, name, chief, members, satifaction, description):
@@ -54,50 +60,27 @@ class Team:
         self.description = description
         self.maxMembers = 4
 
-    def screenMembers(self):
-        """
-        Print readable list of members
-        - output : String
-        """
-        s = "["
-        for char in self.members:
-            s += char.name + ','
-        return(s[:-1] + ']')
-
-    def screen(self):
-        """
-        Print readable informations
-        - output : String
-        """
-        return(
-            "Nom : {}\n".format(self.name) +
-            "Chef : {}\n".format(self.chief.name) +
-            "Members : {}\n".format(self.screenMembers()) +
-            "Quetes : {}\n".format(self.quest_Queue) +
-            "Satisfaction : {}\n".format(self.satifaction) +
-            "description : {}".format(self.description))
-        return()
-
-    def nextQuest(self):
-        """
-        Return the next quest in the queue
-        - output : Quest
-        """
-        return(self.quest_Queue[0])
-
     def goldDistribution(self, gold):
         """
-        Distribute the reward in the team (gold for now)
-        - output : None
+            Distribute the reward in the team
+            ---------------------------------
+            Same share for all member (including the chief),
+            and the remaining gold for the chief
+
+            OUTPUT: None
         """
         for char in self.members:
-            char.gold += gold/len(self.members)
+            char.gold += gold/(len(self.members)+1)
         self.chief.gold += gold % len(self.members)
 
     def questTeamBonus(self, quest):
         """
-        Compute the Bonus/Malus of the team for a quest
-        - output : Integer
+            Compute the Bonus/Malus of the team for a quest
+            -----------------------------------------------
+            The formula is: 
+                sum of characters differences from the quest level
+
+            OUTPUT: Integer
         """
         char_level_effect = 0
         for char in self.members:
@@ -106,15 +89,20 @@ class Team:
 
     def questSuccessRate(self, quest):
         """
-        Compute the success rate of the team for a quest
-        - output : Float
+            Compute the success rate of the team for a quest
+            ------------------------------------------------
+
+            OUTPUT: Float
         """
         return((100 - quest.level*4.9 + self.questTeamBonus(quest)))
 
     def doingQuest(self, quest):
         """
-        The team do the quest and, in case of success, distribute the reward
-        - output : None
+            Doing a quest
+            -------------
+            The team do the quest and, in case of success, distribute the reward
+
+            OUTPUT: None
         """
         if (randint(1, 101) <= self.questSuccessRate(quest)):
             self.goldDistribution(quest.reward)

@@ -5,7 +5,9 @@ class Equipment:
 
     """
     Class for equipement of character
-    Paramters:
+    =================================
+    Attributes:
+    -----------
         - head: Armor
         - shoulders: Armor
         - arms: Armor
@@ -41,10 +43,13 @@ class Equipment:
         self.wrist = None
         self.bonmalus = 0
 
-    def addWeapon(self, item, hand="right_hand"):
+    def addWeapon(self, weapon, hand="right_hand"):
         """
-        Add a Weapon in equipement
-        - output: None
+            Equip a weapon
+            --------------
+            Add the weapon to the indicated hand (default: right)
+
+            OUTPUT: None
         """
         try:
             if item.wType in ['twohands', 'bow']:
@@ -65,8 +70,11 @@ class Equipment:
 
     def removeWeapon(self, hand="right_hand"):
         """
-        Remove a weapon from a hand
-        - output: None
+        Unequip a hand
+        --------------
+        Remove the item from the indicated hand (default: right)
+
+        OUTPUT: None
         """
         if(not(self.right_hand is None) and
            self.right_hand.wType in ['twohands', 'bow']):
@@ -87,8 +95,11 @@ class Equipment:
 
     def addArmor(self, item):
         """
-        Add an Armor in equipement
-        - output: None
+        Equip Armor
+        -----------
+        Add the armor on the correponding location
+
+        OUTPUT: None
         """
         try:
             if item.location == "head":
@@ -109,10 +120,17 @@ class Equipment:
             print("Cet objet n'est pas une armure")
 
     def removeArmor(self, location="all"):
+        """
+            Unequip an armor location.
+            --------------------------
+            Remove the item from the location
+
+            OUTPUT: None
+        """
         if location == "head":
             self.head = None
         elif location == "shoulers":
-            self.shoulders == None
+            self.shoulders = None
         elif location == "arms":
             self.arms = None
         elif location == "trunk":
@@ -126,8 +144,11 @@ class Equipment:
 
     def addJewelry(self, item, finger='right1'):
         """
-        Add Jewelry in Equipment
-        - output: None
+            Equip a jewelry
+            ---------------
+            Add Jewelry on a finger (default: right1) or on location
+
+            OUTPUT: None
         """
         try:
             if item.jType == 'ring':
@@ -155,6 +176,13 @@ class Equipment:
             print("Cet objet n'est pas un bijou")
 
     def removeJewelry(self, location="all"):
+        """
+            Unequip a location
+            ------------------
+            Remove item from location
+
+            OUTPUT: None
+        """
         if location == "right1":
             self.right1 = None
         elif location == "right2":
@@ -175,7 +203,9 @@ class BagPack:
 
     """
     Class for BagPack of character
-    Parameters:
+    ==============================
+    Attributes:
+    -----------
         - potions: Dictionnary of Potion
         - weapons: Dictionnary of Weapon
         - armors: Dictionnary of Armor
@@ -191,6 +221,12 @@ class BagPack:
         self.useless_Items = {}
 
     def inBagpack(self, item, number=1):
+        """
+            Check if number of item is in BagPack
+            -------------------------------------
+
+            OUTPUT: Boolean
+        """
         return ((item in self.weapons and self.weapons[item] >= number) or
                 (item in self.armors and self.armors[item] >= number) or
                 (item in self.jewelries and self.jewelries[item] >= number) or
@@ -198,8 +234,10 @@ class BagPack:
 
     def addItem(self, item, number=1):
         """
-        Add an Item in BagPack
-        - output: None
+            Add an item in BagPack
+            ----------------------
+
+            OUTPUT: None
         """
         if isinstance(item, Weapon):
             if item in self.weapons:
@@ -229,8 +267,10 @@ class BagPack:
 
     def removeItem(self, item, number=1):
         """
-        Remove an Item from BagPack
-        - output: None
+            Remove an item from BagPack
+            ---------------------------
+            
+            OUTPUT: None
         """
         if item in self.weapons:
             if self.weapons[item] > number:

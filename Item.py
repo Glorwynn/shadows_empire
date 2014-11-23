@@ -5,11 +5,13 @@ from Effect import *
 class Item:
 
     """
-    Class for generic Items.
-    Parameters:
-        - name: String
-        - weight: Integer
-        - price: Integer (gold)
+        Class for generic Items.
+        ========================
+        Attributes:
+        -----------
+            - name: String
+            - weight: Integer
+            - price: Integer (gold)
     """
 
     def __init__(self, name, weight, price):
@@ -17,7 +19,15 @@ class Item:
         self.weight = weight
         self.price = price
 
-    def sale(self, buyer, seller, number=1):
+    def sell(self, buyer, seller, number=1):
+        """
+            Sell a number of item from buyer to seller.
+            -------------------------------------------
+            Add the item from seller to buyer and add the gold
+            from buyer to seller.
+
+            OUTPUT: None
+        """
         if seller.bagpack.inBagpack(self, number):
             if buyer.gold >= self.price:
                 buyer.gold -= self.price
@@ -25,7 +35,8 @@ class Item:
                 buyer.bagpack.addItem(self)
                 seller.bagpack.removeItem(self)
             else:
-                print("{} n'a pas l'argent pour acheter {}".format(buyer.name, self.name))
+                print("{} n'a pas l'argent pour acheter {}"
+                      .format(buyer.name, self.name))
         else:
             print("{} n'a pas cet objet".format(buyer.name))
 
@@ -33,13 +44,14 @@ class Item:
 class EquipmentItem(Item):
 
     """
-    Class for Items wore by a character.
-    Parameters:
-        - name: String
-        - weight: Integer
-        - price: Integer (gold)
-        - enchantments: List of Effects
-        - required level: Integer (???)
+        Class for Items wore by a character.
+        ====================================
+        Attributes:
+            - name: String
+            - weight: Integer
+            - price: Integer (gold)
+            - enchantments: List of effects
+            - required level: Integer
     """
 
     def __init__(self, name, weight, price,
@@ -50,16 +62,21 @@ class EquipmentItem(Item):
 
     def equipEffect(self, character):
         """
-        Apply enchantments on the character
-        - output: None
+            Apply item enchantments on the character.
+            -----------------------------------------
+            For each effect, the corresponding attribute is upgraded.
+
+            OUTPUT: None
         """
         for effect in self.enchantments:
             effect.apply(character)
 
     def unequipEffect(self, character):
         """
-        Disapply enchantments on the character
-        - output: None
+            Disapply enchantments on the character.
+            ---------------------------------------
+            For each effect, the corresponding attribute is downgraded.
+            OUTPUT: None
         """
         for effect in self.enchantments:
             effect.disapply(character)
@@ -68,15 +85,17 @@ class EquipmentItem(Item):
 class Weapon(EquipmentItem):
 
     """
-    Class for weapons.
-    Parameters:
-        - name: String
-        - weight: Integer
-        - price: Integer (gold)
-        - enchantments: List of Effects
-        - required level: Integer (???)
-        - damages: ???
-        - wType: str[onehand, twohands, bow, dagger, stick]
+        Class for weapons.
+        ==================
+        Attributes:
+        -----------
+            - name: String
+            - weight: Integer
+            - price: Integer (gold)
+            - enchantments: List of effects
+            - required level: Integer (???)
+            - damages: ???
+            - wType: str[onehand, twohands, bow, dagger, stick]
     """
 
     def __init__(self, name, weight, price,
@@ -90,15 +109,17 @@ class Weapon(EquipmentItem):
 class Armor(EquipmentItem):
 
     """
-    Class for armor pieces.
-    Parameters:
-        - name: String
-        - weight: Integer
-        - price: Integer (gold)
-        - enchantments: List of Effects
-        - required level: Integer (???)
-        - resistance: Integer
-        - location: str[head, shoulders, arms, hands, trunk, legs, feet]
+        Class for armor pieces.
+        =======================
+        Attributes:
+        -----------
+            - name: String
+            - weight: Integer
+            - price: Integer (gold)
+            - enchantments: List of Effects
+            - required level: Integer (???)
+            - resistance: Integer
+            - location: str[head, shoulders, arms, hands, trunk, legs, feet]
     """
 
     def __init__(self, name, weight, price,
@@ -112,43 +133,51 @@ class Armor(EquipmentItem):
 class Jewelry(EquipmentItem):
 
     """
-    Class for Jewelries.
-    Parameters:
-        - name: String
-        - weight: Integer
-        - price: Integer (gold)
-        - enchantments: List of Effects
-        - required level: Integer (???)
-        - jType: str[ring, necklace, armlet]
+        Class for Jewelries.
+        ====================
+        Attributes:
+        -----------
+            - name: String
+            - weight: Integer
+            - price: Integer (gold)
+            - enchantments: List of Effects
+            - required level: Integer (???)
+            - jType: str[ring, necklace, armlet]
     """
 
     def __init__(self, name, weight, price,
                  enchantments, required_Level, jType):
         EquipmentItem.__init__(self, name, weight, price,
-                      enchantments, required_Level)
+                               enchantments, required_Level)
         self.jType = jType
 
 
 class Potion(Item):
 
     """
-    Class for generic Items.
-    Parameters:
-        - name: String
-        - weight: Integer
-        - price: Integer (gold)
-        - effects: List of Effects
+        Class for Potions.
+        ==================
+        Attributes:
+        -----------
+            - name: String
+            - weight: Integer
+            - price: Integer (gold)
+            - effects: List of Effects
+            - delay: Integer
     """
 
     def __init__(self, name, weight, price,
-                 effects):
+                 effects, delay):
         Item.__init__(self, name, weight, price)
         self.effects = effects
+        self.delay = delay
 
     def actEffect(self, character):
         """
-        Apply effects of object on character.
-        - output: None
+            Apply effects of item on character while delay.
+            -----------------------------------------------
+            For each effects, the corresponding arrtibute is upgraded
+            OUTPUT: None
         """
         for effect in self.effects:
             effect.act(character)
