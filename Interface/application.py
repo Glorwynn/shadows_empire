@@ -13,26 +13,34 @@ class MainWindow(Tk):
 
         self.initVariables()
         self.initUI()
+        StartScreen(self)
 
     def initUI(self):
+        # Screen resolution
+        self.geometry(self.resolution)
+
         # Menus
         menu_bar = Menu(self)
         self['menu'] = menu_bar
         FileMenu(menu_bar, self)
         EditMenu(menu_bar)
 
-        # Main frame
-        SplashScreen(self)
-
     def initVariables(self):
+        # Graphical variables
+        self.resolution = STD_RESOLUTION
+
+        # Game variables
         self.hero_name = StringVar()
 
     def newGame(self):
         NewHeroScreen(self)
-        #MainScreen(self)
+        MainScreen(self)
 
     def loadGame(self):
         pass
+
+    def getOptions(self):
+        OptionScreen(self)
 
     def quitGame(self):
         self.initUI()

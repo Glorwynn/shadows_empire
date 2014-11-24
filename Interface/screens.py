@@ -4,7 +4,7 @@ from tkinter import ttk
 from consts import*
 
 
-class SplashScreen(ttk.Frame):
+class StartScreen(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent, padding='3 3 12 12')
 
@@ -24,12 +24,55 @@ class SplashScreen(ttk.Frame):
         open_game_btn = ttk.Button(self, text=MENU_OPEN_GAME, command=parent.loadGame)
         open_game_btn.grid(column=1, row=2)
 
+        options_btn = ttk.Button(self, text=MENU_OPTIONS, command=parent.getOptions)
+        options_btn.grid(column=2, row=2)
+
         quit_btn = ttk.Button(self, text=MENU_QUIT_APP, command=parent.returnToDsktp)
-        quit_btn.grid(column=2, row=2)
+        quit_btn.grid(column=1, row=3)
 
         # Final settings
         for child in self.winfo_children():
             child.grid_configure(padx=5, pady=5)
+
+
+class MainScreen(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent, padding='3 3 12 12')
+
+        self.grid(column=0, row=0, sticky=(N, W, E, S))
+
+        name_lbl = ttk.Label(self, text=parent.hero_name)
+        name_lbl.grid(column=0, row=0)
+
+        quit_btn = ttk.Button(self, text="Quitter", command=parent.returnToDsktp)
+        quit_btn.grid(column=1, row=0)
+
+
+class OptionScreen(Toplevel):
+    def __init__(self, parent, padding='3 3 12 12'):
+        super().__init__(parent)
+        self.parent = parent
+
+        self.resolutions = StringVar(value=RESOLUTIONS)
+        self.resolution = StringVar()
+
+        self.initUI()
+
+    def initUI(self):
+        main_frame = ttk.Frame(self)
+        main_frame.grid(column=0, row=0, sticky=(N, W, E, S))
+
+        self.resolutions_box = Listbox(self, listvariable=self.resolutions, height=3)
+        self.resolutions_box.grid(column=0, row=0, sticky=W)
+
+        confirm_btn = ttk.Button(self, text="Confirmer", command=self.confirmInfos)
+        confirm_btn.grid(column=1, row=0, sticky=W)
+
+    def confirmInfos(self, *args):
+        index = int(self.resolutions_box.curselection()[0])
+        self.parent.resolution = RESOLUTIONS[index]
+        self.parent.initUI()
+        self.destroy()
 
 
 class NewHeroScreen(Toplevel):
@@ -67,7 +110,3 @@ class NewHeroScreen(Toplevel):
 
     def getInfos(self):
         return(self.hero_name)
-
-
-class MainScreen(Frame):
-    pass
