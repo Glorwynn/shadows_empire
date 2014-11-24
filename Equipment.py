@@ -1,11 +1,13 @@
-from Object import *
+from Item import *
 
 
 class Equipment:
 
     """
     Class for equipement of character
-    Paramters:
+    =================================
+    Attributes:
+    -----------
         - head: Armor
         - shoulders: Armor
         - arms: Armor
@@ -15,10 +17,10 @@ class Equipment:
         - feet: Armor
         - right_hand: Weapon
         - left_hand: Weapon
-        - right_hand_finger_1: Jewelry
-        - right_hand_finger_2: Jewelry
-        - left_hand_finger_1: Jewelry
-        - left_hand_finger_2: Jewelry
+        - right1: Jewelry
+        - right2: Jewelry
+        - left1: Jewelry
+        - left2: Jewelry
         - neck: Jewelry
         - wrist: Jewelry
     """
@@ -33,144 +35,267 @@ class Equipment:
         self.feet = None
         self.right_hand = None
         self.left_hand = None
-        self.right_hand_finger_1 = None
-        self.right_hand_finger_2 = None
-        self.left_hand_finger_1 = None
-        self.left_hand_finger_2 = None
+        self.right1 = None
+        self.right2 = None
+        self.left1 = None
+        self.left2 = None
         self.neck = None
         self.wrist = None
+        self.bonmalus = 0
 
-    def addWeapon(self, item, hand="right"):
+    def addWeapon(self, weapon, hand="right_hand"):
         """
-        Add a Weapon in equipement
-        - output: None
+            Equip a weapon
+            --------------
+            Add the weapon to the indicated hand (default: right)
+
+            OUTPUT: None
         """
-        if item.wType in ['twohands', 'bow']:
-            self.right_hand = item
-            self.left_hand = item
-            # Ne pas oublier les effet de l'enchantement
-        elif item.wType in ['onehand', 'dagger', 'stick']:
-            if hand == 'right':
+        try:
+            if item.wType in ['twohands', 'bow']:
                 self.right_hand = item
-            elif hand == 'left':
                 self.left_hand = item
+            elif item.wType in ['onehand', 'dagger', 'stick']:
+                if hand == 'right_hand':
+                    self.right_hand = item
+                elif hand == 'left_hand':
+                    self.left_hand = item
+                else:
+                    print("{} n'est pas une position d'arme valide"
+                          .format(hand))
             else:
-                print("{} n'est pas une position d'arme valide"
-                      .format(hand))
+                print("Le type d'arme est invalide")
+        except AttributeError:
+            print("Cet objet n'est pas une arme")
+
+    def removeWeapon(self, hand="right_hand"):
+        """
+        Unequip a hand
+        --------------
+        Remove the item from the indicated hand (default: right)
+
+        OUTPUT: None
+        """
+        if(not(self.right_hand is None) and
+           self.right_hand.wType in ['twohands', 'bow']):
+            self.right_hand = None
+            self.left_hand = None
         else:
-            print("Le type d'arme est invalide")
+            if hand == "right_hand":
+                if(not(self.right_hand is None) and
+                   self.right_hand.wType in ['twohands', 'bow']):
+                    self.left_hand = None
+                self.right_hand = None
+            elif hand == "left_hand":
+                if self.left_hand.wType in ['twohands', 'bow']:
+                    self.right_hand = None
+                self.left_hand = None
+            else:
+                print("L'emplacement n'est pas valide")
 
     def addArmor(self, item):
         """
-        Add an Armor in equipement
-        - output: None
-        """
-        if item.location == "head":
-            self.head = item
-        elif item.location == "shoulers":
-            self.shoulders == item
-        elif item.location == "arms":
-            self.arms = item
-        elif item.location == "trunk":
-            self.trunk = item
-        elif item.location == "legs":
-            self.legs = item
-        elif item.location == "feet":
-            self.feet = item
-        else:
-            print("L'emplacement d'arume est invalide")
+        Equip Armor
+        -----------
+        Add the armor on the correponding location
 
-    def addJewelry(self, item, finger=None):
+        OUTPUT: None
         """
-        Add Jewelry in Equipment
-        - output: None
-        """
-        if item.jType == 'ring':
-            if finger == 'right1':
-                self.right_hand_finger_1 = item
-            elif finger == 'right2':
-                self.right_hand_finger_2 = item
-            elif finger == 'left1':
-                self.left_hand_finger_1 = item
-            elif finger == 'left2':
-                self.left_hand_finger_2 = item
+        try:
+            if item.location == "head":
+                self.head = item
+            elif item.location == "shoulers":
+                self.shoulders = item
+            elif item.location == "arms":
+                self.arms = item
+            elif item.location == "trunk":
+                self.trunk = item
+            elif item.location == "legs":
+                self.legs = item
+            elif item.location == "feet":
+                self.feet = item
             else:
-                if finger is None:
-                    print("Il faut indiquer sur quel doigt" +
-                          "mettre cet objet")
+                print("L'emplacement d'armure est invalide")
+        except AttributeError:
+            print("Cet objet n'est pas une armure")
+
+    def removeArmor(self, location="all"):
+        """
+            Unequip an armor location.
+            --------------------------
+            Remove the item from the location
+
+            OUTPUT: None
+        """
+        if location == "head":
+            self.head = None
+        elif location == "shoulers":
+            self.shoulders = None
+        elif location == "arms":
+            self.arms = None
+        elif location == "trunk":
+            self.trunk = None
+        elif location == "legs":
+            self.legs = None
+        elif location == "feet":
+            self.feet = None
+        else:
+            print("L'emplacement est invalide")
+
+    def addJewelry(self, item, finger='right1'):
+        """
+            Equip a jewelry
+            ---------------
+            Add Jewelry on a finger (default: right1) or on location
+
+            OUTPUT: None
+        """
+        try:
+            if item.jType == 'ring':
+                if finger == 'right1':
+                    self.right1 = item
+                elif finger == 'right2':
+                    self.right2 = item
+                elif finger == 'left1':
+                    self.left1 = item
+                elif finger == 'left2':
+                    self.left2 = item
                 else:
-                    print("L'emplacement est invalide")
-        elif item.jType == 'necklace':
-            self.neck = item
-        elif item.jType == 'armlet':
-            self.wrist = item
-        else:
-            print("Le type de bijou est invalide")
+                    if finger is None:
+                        print("Il faut indiquer sur quel doigt" +
+                              "mettre cet objet")
+                    else:
+                        print("L'emplacement est invalide")
+            elif item.jType == 'necklace':
+                self.neck = item
+            elif item.jType == 'armlet':
+                self.wrist = item
+            else:
+                print("Le type de bijou est invalide")
+        except AttributeError:
+            print("Cet objet n'est pas un bijou")
 
-    def equip(self, item, ):
+    def removeJewelry(self, location="all"):
         """
-        Equip an item
-        - output: None
+            Unequip a location
+            ------------------
+            Remove item from location
+
+            OUTPUT: None
         """
-        if type(item) == Weapon:
-            self.equipWeapon()
-        elif type(item) == Armor:
-            self.setParam(item.location, item)
+        if location == "right1":
+            self.right1 = None
+        elif location == "right2":
+            self.right2 = None
+        elif location == "left1":
+            self.left1 = None
+        elif location == "left2":
+            self.left2 = None
+        elif location == "neck":
+            self.neck = None
+        elif location == "wrist":
+            self.wrist = None
         else:
-            print("Vous ne pouvez pas equiper cet objet")
-
-    def unequip(self, location):
-        if location is None:
-            print('Vous ne portez rien à cet endroit')
-        else:
-            location = None
-
-    def setParam(string, value):
-        if string == 'head':
-            self.head = value
-        elif string == 'shoulders':
-            self.shoulders = value
-        elif string == 'arms':
-            self.arms = value
-        elif string == 'hands':
-            self.hands = value
-        elif string == 'trunk':
-            self.trunk = value
-        elif string == 'legs':
-            self.legs = value
-        elif string == 'feet':
-            self.feet = value
-        elif string == 'right_hand':
-            self.right_hand = value
-        elif string == 'left_hand':
-            self.left_hand = value
-        else:
-            print("Cette partie n'est pas connue")
+            print("Cet emplacement n'est pas valide")
 
 
 class BagPack:
 
+    """
+    Class for BagPack of character
+    ==============================
+    Attributes:
+    -----------
+        - potions: Dictionnary of Potion
+        - weapons: Dictionnary of Weapon
+        - armors: Dictionnary of Armor
+        - jewelries: Dictionnary of Jewelry
+        - useless_Items: Dictionnary of other Items
+    """
+
     def __init__(self):
-        self.potions = []
-        self.weapons = []
-        self.armors = []
-        self.jewelries = []
-        self.useless_Objects = []
+        self.potions = {}
+        self.weapons = {}
+        self.armors = {}
+        self.jewelries = {}
+        self.useless_Items = {}
 
-    def addItem(self, item):
-        if type(item) == Weapon:
-            self.weapons += [item]
-        elif type(item) == Armor:
-            self.armors += [item]
-        elif type(item) == Jewelry:
-            self.jewelries += [item]
-        elif type(item) == Potion:
-            self.potion += [item]
+    def inBagpack(self, item, number=1):
+        """
+            Check if number of item is in BagPack
+            -------------------------------------
+
+            OUTPUT: Boolean
+        """
+        return ((item in self.weapons and self.weapons[item] >= number) or
+                (item in self.armors and self.armors[item] >= number) or
+                (item in self.jewelries and self.jewelries[item] >= number) or
+                (item in self.potions and self.potions[item] >= number))
+
+    def addItem(self, item, number=1):
+        """
+            Add an item in BagPack
+            ----------------------
+
+            OUTPUT: None
+        """
+        if isinstance(item, Weapon):
+            if item in self.weapons:
+                self.weapons[item] += number
+            else:
+                self.weapons[item] = number
+        elif isinstance(item, Armor):
+            if item in self.armors:
+                self.armors[item] += number
+            else:
+                self.armors[item] = number
+        elif isinstance(item, Jewelry):
+            if item in self.jewelries:
+                self.jewelries[item] += number
+            else:
+                self.jewelries[item] = number
+        elif isinstance(item, Potion):
+            if item in self.potions:
+                self.potions[item] += number
+            else:
+                self.potions[item] = number
         else:
-            self.useless_Objects += [item]
+            if item in self.useless_Items:
+                self.useless_Items[item] += number
+            else:
+                self.useless_Items[item] = number
 
-    def removeItem(self, item):
-        
-
-e = Equipment()
-print(e.equip(0, e.head))
+    def removeItem(self, item, number=1):
+        """
+            Remove an item from BagPack
+            ---------------------------
+            
+            OUTPUT: None
+        """
+        if item in self.weapons:
+            if self.weapons[item] > number:
+                self.weapons[item] -= number
+            else:
+                del self.weapons[item]
+        elif item in self.armors:
+            if self.armors[item] > number:
+                self.armors[item] -= number
+            else:
+                del self.armors[item]
+        elif item in self.jewelries:
+            if self.jewelries[item] > number:
+                self.jewelries[item] -= number
+            else:
+                del self.jewelries[item]
+        elif item in self.potions:
+            if self.potions[item] > number:
+                self.potions[item] -= number
+            else:
+                del self.potions[item]
+        elif item in self.useless_Items:
+            if self.useless_Items[item] > number:
+                self.useless_Items[item] -= number
+            else:
+                del self.useless_Items[item]
+        else:
+            print("Cet objet n'est pas dans l'inventaire")
