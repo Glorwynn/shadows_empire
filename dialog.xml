@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<dialogs>
+    <dialog id='0'>
+        <question>
+            <sentence>Bonjour !</sentence>
+            <answersChoice>
+                <choice id='0'>
+                    <answer>Salut ! Comment vas tu ?</answer>
+                    <question>
+                        <sentence>Bien et toi ?</sentence>
+                        <answersChoice>
+                            <choice id='0'>
+                                <answer>Bien merci</answer>
+                                <question>
+                                    <sentence>Cool !</sentence>
+                                </question>
+                            </choice>
+                            <choice id='1'>
+                                <answer>Pas top</answer>
+                                <question>
+                                    <sentence>Ha zut...</sentence>
+                                </question>
+                            </choice>
+                        </answersChoice>
+                    </question>
+                </choice>
+            </answersChoice>
+        </question>
+    </dialog>
+</dialogs>
