@@ -44,7 +44,7 @@ class Character:
         self.blood_thirst = blood_thirst                # Integer [0,10]
         self.greed_lvl = greed_lvl                      # Integer [0,10]
         self.gold = gold                                # Integer
-        self.estate = []                            # List of Building
+        self.estates = []                                # List of Building
         self.equipment = Equipment()                    # Equipment
         self.bagpack = BagPack()                        # BagPack
         self.relations = relations                      # Dictionnary
@@ -344,7 +344,7 @@ class TeamChief(Character):
                            greed_lvl, gold, relations)
         self.team = team
 
-    def addMember(self, character):
+    def enroll(self, character):
         """
             Enroll a character in the chief team
             -------------------------------------
@@ -355,12 +355,13 @@ class TeamChief(Character):
         if self.idChar == team.chief.idChar:
             if len(team.members) < 4:
                 team.members += [character]
+                character.greed_lvl += ENROLL_CHARACTER_GREED
             else:
                 print("Il y a deja trop de personnes dans cette equipe")
         else:
             print("Vous n'etes pas chef de cette equipe")
 
-    def delMember(self, character, team):
+    def fire(self, character, team):
         """
             Fire a Character of the team
             ----------------------------
@@ -371,6 +372,7 @@ class TeamChief(Character):
         if self.idChar == team.chief.idChar:
             try:
                 team.members.remove(character)
+                character.greed_lvl += FIRE_CHARACTER_GREED
             except ValueError:
                 print(character.name +
                       " n'est pas dans les membre de l'equipe " +
@@ -402,5 +404,6 @@ class TeamChief(Character):
         """
         try:
             team.waiting_Quest.remove(quest)
+            quest.giver.greed_lvl += REFUSEQUESTREQUEST_GIVER_GREED
         except ValueError:
             print("Cette quete ne vous a pas ete proposee")

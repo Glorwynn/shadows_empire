@@ -31,7 +31,7 @@ class Organisation:
         sum_Influence = 0
         for char in self.members:
             sum_Influence += char.getInfluence()
-        value = (chief.getInfluence() + sum_Influence) / len(self.members)
+        value = (2*chief.getInfluence() + sum_Influence) / len(self.members)
         return(int(value))
 
 
@@ -100,12 +100,19 @@ class Team:
         """
             Doing a quest
             -------------
-            The team do the quest and, in case of success, distribute the reward
+            The team do the quest and, in case of success,
+            distribute the reward and the greed bonus/malus.
 
             OUTPUT: None
         """
         if (randint(1, 101) <= self.questSuccessRate(quest)):
             self.goldDistribution(quest.reward)
+            quest.giver.greed_lvl += DOINGQUEST_WIN_GIVER_GREED
+            for character in self.members:
+                character.greed_lvl += DOINGQUEST_WIN_TEAM_GREED
         else:
             print("Mission failed")
+            quest.giver.greed_lvl += DOINGQUEST_FAIL_GIVER_GREED
+            for character in self.members:
+                character.greed_lvl += DOINGQUEST_FAIL_TEAM_GREED
         self.quest_Queue = self.quest_Queue[1:]

@@ -13,9 +13,10 @@ class Quest:
             - duration: Integer
     """
 
-    def __init__(self, title, target, reward,
+    def __init__(self, title, giver, target, reward,
                  level, location, duration):
         self.title = title
+        self.giver = giver
         self.target = target
         self.reward = reward
         self.level = level
@@ -39,7 +40,7 @@ class StealQuest(Quest):
         - object to steal: Object
     """
 
-    def __init__(self, title, target, reward,
+    def __init__(self, title, giver, target, reward,
                  level, location, duration, object_to_steal):
         Quest.__init__(self, title, target, reward,
                        level, location, duration)
